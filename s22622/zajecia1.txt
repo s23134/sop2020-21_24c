@@ -1,0 +1,174 @@
+06.03.2021    Instalacja systemu Linux na maszynach wirtualnych 
+
+During classes we instaled Linux distribution - Debian.
+We analized avalible configuration options and personalized our selections.
+
+Process description below.
+
+1. Download system installation image from debian.org
+	I chose "small image file" for 64-bites PC "amd64"
+	
+2. In VirtualBox manager we create new virtual machine.
+	I chose "Maszyna" -> "Nowa"
+
+   a) I named it "debian" / defined folder path /chose version 64-bit.
+   b) Operational memeory - I declared 2048 MB 
+	It have to be ????????
+   c) In next step I created new virtual hard drive  
+   d) I chose format VDI(VirtualBox Disc Image) 
+	Options: 
+	-VDI(VirtualBox Disc Image)- format dedicated for VirtualBox (it means communication is better)
+	-VHD (Virtual Hard Disc) - Microsoft format , better if you need to move things between those systems it will be easier but does't work very well.  
+	-VMDK (Virtual Machine Disc)- for VMware
+   e) "memory on a physical hard disk"- chose dynamic
+	Options:
+	- Dynamic allocation - memory size is enlarged dynamically (maximum is your declaration of this size) 
+	- Fixed size- size is constant, it makes system faster
+   f) "file location and size"- i changed the size to 16GB
+   
+
+3. Settings (right mouse button on debian icon)
+
+   a) system/motherboard
+	- unchecked "floppy" and "optical drive" (we can use them later by checking one-time use)
+   b) system/processor   
+	- I didn't change anything
+   c) memory 
+	- I changed path in option controller:IDE / parametrs / optical drive
+   d) voice 
+	- I unchecked this option
+   e) network
+	- card1
+	Options:
+	A. NAT- separeted from "oryginal" computer, but with internet connection - chose this
+	B. bridged network card - as a new computer 
+	C. internal network - comunication of two virtual machines but without connection with "orygina" computer
+	D. isolated network card - comunnication between "oryginal/host" computer and virtual machine
+	E. generic driver
+	F. network NAT -as 1st option + you can choose a network
+	G. Cloud network (experimental)
+	H. disconnected
+   f) serial ports - unchecked
+   g) USB - activ via USB 2.0
+
+4. Starting up virtual machine :
+	Options:
+	- classic start - I used this one,
+	  (after pressing that option necessary is to click very fast in screen and press F12,
+	   if it fails press right ctrl and "r" and again click very fast in screen)    
+	- "without head" start
+	- separeted start
+
+5. First screen
+	 Pressed c - it means "CD-ROM"
+
+6. Installer menu
+	Options:
+	- Graphical install -nice but needs a lot of memory
+	- Install - I chose this one
+	- Advanced options
+	- Accessible dark contrast installer menu
+	- help
+	- Install with speech synthesis  
+
+7. Install 
+	a) select a language (English)
+	b) select your location (europe)
+	c) select your location ( Poland)
+	d) Configure locales (United States en_US.UTF-8)
+	e) configure the keyboard (american english)
+
+ 	f)  Configure the network 
+	  - Hostname : debian
+	  - Domain name : .......
+	g) set up users and password
+	  - root password: x
+	  - re-enter password: x 
+	  - full name for the new user:  magda
+	  - username for your account: magda 
+ 	  - choose a password for the new user:  x
+          - re-enter password: x
+	h) Partition disks 
+	  A. Partition method:
+		- Guided - use entire disk - 
+		- Guided - use entire disc and set up LVM - whole disc will be reorganized. partitions menaged by LVM 
+		- Guided - use entire disc and set up encrypted LVM- whole disc will be reorganized. partitions menaged by LVM. changes with password
+		- Manual-  i chose this one 
+	  B. Guaided partitioning 
+	  C. Guided - use entire disc
+	  D. OK
+ 	  E. Separate /home /var /temp partitions
+          F. SCSI3 (0,0,0) (sda) - 8.6 GB ATA VBOX HARDDISC
+	  G. Yes
+1st Part  H. pri/log 8.6 GB  FREE SPACE
+	  I. create a nwe partition
+	  J. 6,6 GB 
+	  K. primary
+ 	  L. begining
+	  M. Use as :
+		Ext4 journalinf file system (default option)
+	  N.  bootable flag : yes
+	  O. done setting up the partition 
+2nd part  P.  pri/log 8.6 GB  FREE SPACE
+          R. create a nwe partition
+          S. 2 GB
+          T. primary/logical - yours choice 
+          U. begining
+          W. Use as :
+                swap area
+          X.  bootable flag : off
+          Y. done setting up the partition
+
+After all we have:
+
+#1 primary  6.6 GB B   f   ext4     /
+#2 primary    2 GB     f   swap     swap 
+
+	  Z. Finish partitioning and write changes to the disc / YES
+
+	g) Configure the package manager 
+	  A. scan another CD/DVD -> No
+	  B. Debian archiwe mirror country -> Poland
+	  C. Debian archive mirror -> ftp.task.gda.pl
+  
+	h) Configuring popularity-contest ->  NO
+
+	i) Software selection
+	  I chose: SSH server, standars system utilities 
+
+	j) install the GRUB boot loader on a hard disk -> YES
+	  /dev/sda  (ata-VBOX_HARDDISC_VB62d1bc73-30304204)
+
+	k) Finish the installation -> continue
+
+8. 
+	a) Debian GNU/Linux 
+	b) login , password (as a user)
+	c) leftAlt + F2 (for a new session) 
+	d) login , password (as a root) 
+		- whoami (root) 
+		- tasksel (choosing software to install)/ cancel
+	e) aptitude (command not found )
+
+		How we can install something?
+	      OLD STYLED 
+	        *  apt-get update
+	        *  apt-get install aptitude / Yes  
+	      NEW STYLE
+		* apt install aptitude
+ 
+	f) apt search aptitude
+	g) aptitude search aptitude 
+
+		Two ways to get list of existing packages with informacion about status (installed or not)
+
+	h) aptitude (grapfical informations about packages)
+           / 
+	   search for "aptitude" 
+    	   q (closing apptitude info ) 
+	   u ( update) 
+	   + ( way to install something - you have to be on this element) /g /g (g means GO) 
+	   q (closing this graphical information) 
+
+	i)exit (logout from root) 
+
