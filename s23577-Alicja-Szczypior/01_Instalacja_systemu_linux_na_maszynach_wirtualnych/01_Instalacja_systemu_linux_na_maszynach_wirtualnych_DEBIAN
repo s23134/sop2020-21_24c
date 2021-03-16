@@ -1,0 +1,119 @@
+20200315
+_____________________________________________________________
+
+01 Instalacja systemu linux na maszynach wirtualnych (DEBIAN)
+______________________________________________________________
+
+DEBIAN - projekt wolnej dystrybucji systemu operacyjnego GNU/Linux oraz GNU/kFreeBSD
+
+1. debian.org -> pobieranie -> mały plik obrazu -> ISO netist dla 64-bitowego PC (jeśli dysponujemy 64-bitowym) lub najmniejsze płytki -> amd64
+ //arm64 -> gdy pracujemy na najnowszych macOS
+
+TWORZENIE MASZYNY WIRTUALNEJ
+
+2. -> VirtualBox 
+   -> Maszyna 
+   -> Nowa maszyna 
+   -> //nadajemy nazwę tu: debian //wybieramy wersję w zależności od naszego komputera tu: Debian 64-bitowy //rozmiar pamieci: powinna byc to liczba bedaca wielokrotnoscia dwojki 2048 MB 
+   -> stworz nowy dysk twardy 
+   -> //wybor formatu (VDI -VirtualBox Disk Image, VHD -Virtual Hard Disc w formacie Microsoft, VMDK -Virtual Machine Disc) tu: VDI -bo jest to format virtualbox, najlepiej go rozumie 
+   -> //pamiec na fizycznym dysku twardym (dynamicznie przydzielany - bedzie stale rosl, staly rozmiar - automatyczna rezerwacja miejsca, jakie bylo przydzielone na poczatku, zeby miec ciagly plik na dysku, czasem wymagane do niektorych systemow, system operacyjny chodzi zwykle szybciej, bo nie musi przydzielac miejsca na dysku) tu: dynamiczny, bo nasze dzialania nie spowolnia tak bardzo dysku 
+   -> //lokalizacja pliku i rozmiar tu: 8,00 GB powinno wystarczyc (mozna do 16GB, jesli mamy tyle miejsca na dysku)
+   -> //maszyna prawie gotowa
+
+USTAWIENIA MASZYNY tu: debian
+
+3. -> System, odznaczamy floppy oraz naped optyczny (nie chcemy zeby za kazdym razem sie on wlaczal), zostaje tylko dysk twardy, zakladka procesor: ustawiamy dwa, to pomaga, wylaczamy PAE/NX
+   -> Pamiec, kontroler: IDE, brak, nastepnie po lewej stronie w oknie klikamy na ikone plyty, tu wybieramy nasz pobrany wczesniej plik ze strony debian.org
+   -> Dzwiek, wylaczamy
+   -> Siec, NAT (wystarczy do zajec, powoduje ze wirtualna maszyna bedzie odseparowana od komputera na ktorym jest uruchomiana, ale wciaz bedzie miala dostep do internetu) inne: mostkowana karta sieciowa (spowoduje, ze maszyna wirtualna bedzie widziana jako odzielny komputer, podlaczony do tego samego kabla), siec wewnetrzna (sluzy do komunikacji maszyn wirtualnych pomiedzy soba ale nie miedzy komputerem na ktorym sa uruchamiane, mozna ustawic nazwe swojej sieci wewnetrznej), karta sieci izolowanej (komunikacja pomiedzy hostem a jedna konkretna maszyna wirtualna), rodzajowy sterownik (potrzebny do specjalnego systemu komunikacji), siec NAT (ta sama co NAT, ale mozna wybrac konkretna siec), cloud Network (nowa, jeszcze eksperymenty), niepodlaczona (jest gniazdko, ale nic nie jest podbiete)
+   -> Porty szeregowe, wylaczamy
+   -> USB, wlaczamy USB 2.0 bo jest najbardziej kompatybilne i w miare szybkie
+
+URUCHAMIANIE MASZYNY WIRTUALNEJ
+//jest kilka sposobow np. uruchom -> zwykly start (uruchomi sie normalnie w oddzielnym oknie), bezglowy start i oddzielny start (opcje kiedy chcemy zrobic prosty serwer, maszyna nie otwiera dodatkowy okien)
+
+4. zwykly start !!!zaraz po kliknieciu szybko klikamy na okno otwierajacej sie maszyni i wciskamy f12 !!! pozwala to na wprowadzanie ustawien/mozliwosci +przechwytujemy
+#AHCI controller: 1) oznacza, ze bedziemy uruchamiac z pierwszego dysku twardego
+#contunue booting powrot do stanu sprzed wcisniecia f12
+#LAN jesli chcemy uruchomic komputer przez siec, jesli mamy osobny serwer skonfigorowany
+#floppy - obraz dyskietki
+#(c) CD-ROM <--- wciskamy klawisz c
+//operujemy strzalkami oraz klawiszem enter w oknie!!!
+#graphical install - mozemy instalowac maszyne graficznie, ale zajmuje za duzo zasobow, za dlugo sie uruchamia
+#install <--- tego uzyjemy
+#install with speech synthesis - dla osob niedowidzacych
+#adwanced options, np. instalacja graficzna w trybie eksperta, wiecej opcji, rescue mode, mozna przywracac dane z linuxa
+
+INSTALACJA TEKSTOWA DEBIAN
+
+5. -> jezyk <--- english
+   -> lokalizacja <--- Europe, Poland
+   -> uklad klawiatury <--- United States
+   -> keymap <--- American English
+   //instalator pobiera informacje z internetu (zielona kropka przy ikonce plyty odbieranie i sciaganie)
+   -> hostname, wazne zeby bylo rozne od nazwy uzytkownika,
+   -> domain name, nie podajemy
+   -> Root password <--- czyli administratora, dobrze zeby bylo strzezone i zlozone
+   -> Full name for the new user <---piszemy z malych liter, bo linux rozroznia wielkosc znakow
+   -> Username for your account <---login, tutaj tez powinno byc z malej
+   -> Password for new user
+   -> Podzial dysku na partycje: korzystamy z opcji: Manual
+   //guided - use entire disk - prowadzony przez kreator, ma uzyc caly dysk
+   //guided - use entire disk and set up LVM - robia sie partycje zarzadzane przez caly system LVM, na dzialajacym systemie mozna dodawac i rozszerzac partycje, w srodowiskach produkcyjnych, kiedy korzysta sie z serwerow - uzywa sie tej opcji
+   //guided - use entire disc and set up encrypted LVM - to co wyzej tylko z uzyciem szyfracji przy probie zamontowaniu partycji
+   -> wybrano opcje: propozycji kreatora i powrot do use entire disk
+   -> zazwyczaj /home /var na osobnych partycjach <--- separate /home, /var, /tmp patritions
+   //wynik: zaproponowal 5 partycji (ogolnie na dysku mozna zrobic 4 partycje logical zaczynajace sie od numeru piatego+1 podstawowa, one sa na numerach od jeden do trzy, ale cztery tez moze byc)
+   //my odrzucamy porpozycje kreatora
+   -> SCSI3 (0,0,0) (sda) -> create new empty partition on this device -> yes, mamy teraz pusty dysk
+   -> pri/log 8.6GB FREE SPACE -> create a new partition -> rozmiar 6.6 GB
+   -> type for the new partition -> primary -> location -> beginning
+   -> Partiiton settings, use as EXT4 - to system plikow na dysku, mamy tez ext2, ext3, zfs, xfs, btrfs, jfs, xfs, fat16, fat32 (tutaj w zaleznosci od systemu) -> ext4 journaling file system -> ext4 wybieramy, jest natywna dla linuxa
+   -> Mount point: /, bo robimy glowny system
+   -> Bootable flag: on, wlaczamy enterem
+   -> Done seting up the partition
+   -> pri/log 2.0GB free space -> create a new partition -> (bo zostaly dwa GB) -> primary, czy logical obie opcje są dobre -> Use as: ustawiamy z Ext4 na swap area -> Done setting up the partition
+   -> finish partitioning and write changes to disc -> Yes
+
+  //teraz na dysk sa zapisywane zmiany (czerwona kropka na ikonce na dolnym pasku)
+  //wlaczy sie system, ale bedzie tylko bash, bez srodowiska graficznego
+
+   -> No, nie skanujemy kolejnych CD czy DVD
+   //teraz podajemy skad system ma pobierac dalsze pakiety, bezposrednio z internetu (bo Network Instalation-NetInst) -> Poland -> ftp.task.gda.pl (bo okolice trojmiasta) -> contunue (nie mam proxy) -> 
+
+  //CANNOT ACCESS REPOSITORY - komunikat - nie bedzie update'ow, trzeba to pozniej sprawdzic
+
+   -> Configuring popularity-contest, nie chcemy brac udzialu w konkursie/ankiecie
+   -> Sotware selection, odznaczamy: debian desktop environment (bardzo dlugo sie instaluje), print server (bo nie chcemy miec srodowiska druku), zaznaczamy: ssh server
+   -> na poczatku dysku twardego musi byc program - boot loader, tzn. program ktory uruchomi komputer i przekaze pewne parametry do uruchomienia konkretnego systemu operacyjnego, on musi sie zainstalowac w miejscu boot record -> Yes -> wybieramy sysk sda: /dev/sda
+
+INSTALACJA ZAKONCZONA
+
+6. -> mozemy teraz w menu domontowac opcje ISO, ale wlaczylismy bootowanie domyslne z plyty, wiec po restarcie wlaczy sie normalnie zainstalowany system operacyjny - continue
+   -> jak bedzie wiecej jader linuxa zainstalowanych, to w koncie bedzie wiecej opcji, ale domyslnie jest debian GNU/Linux
+
+LOGOWANIE
+
+7. -> uzywajac tych danych na jakie stworzono konto
+   -> lewy alt oraz F2, zmienilo sie jadro linux 10 tty2, teraz lewy alt oraz f1 -> przelacza na tty1
+   -> ale przelaczamy na tty1 i logujemy sie jako root, robimy tak bo domyslnie na systemie debian nie jest skonfigurowany, nie pozwalaja normalnemu uzytkownikowi wykonywac polecenia np. sudo (polecenie uruchom to co znajduje sie po poleceniu sudo jako uzytkownik root, o ile ma on do tego prawo)
+   -> wpisujemy polecenie: whoami -> system zwrocil nazwe zalogowanego uzytkownika
+   -> tasksel -> wrocilismy do software selection, mozna zaznaczyc dodatkowe rzeczy, by doinstalowac grupe pakietow, zawsze musi byc kontekst podwyzszonych uprawien, pamietac o tym co robi sudo! na windors runas administrator!!! (uruchom z podniesionymi uprawnieniami, ale wciaz na moim koncie)
+
+JAK ZAINSTALOWAC COS W SYSTEMIE
+
+8. -> aptitude (program do instalacji pakietow, wygodniejszy niz tasksel, ale go nie ma aktualnie - command not found), 
+   -> do isntalacji sa metody: stara (zawsze dziala) nowa (ladna)
+   -> apt-get update, spowoduje pobranie nowych list pakietu z internetu na system
+   -> apt-get install aptitude -> Y (mozna nic nie wpisac i zatwierdzic)
+   // inaczej: apt install aptitude, na dole pojawilby sie zielony pasek z progresem instalacji
+   -> apt-cash lub file do szukania
+   -> apt search aptitude (szukanie - pokazuje wersje)
+   -> aptitude search aptitude (wygodna lista, i - instal, v - virtual, p - niezainstalowane) instalacja apt aptitude install -nazwapakietu
+   -> aptitude (uruchomi sie wersja graficzna), wciskamy "/" wpisujemy "aptitude" (pokazuje ze jest zainstalowane w takiej konkretnej wersji) mozemy enter i zobaczymy szersze opcje, "q" cofanie kolejnych okien, 'u' akutalizacja pakietow "+" zainstalowanie czegos "g" ze ma wykonac "g" jeszcze raz potwierdzamy
+   -> bycie zalogowanym jako uzytkownik root jest potencjalnym zagrozeniem, trzeba wiec sie wylogowac, wpisujemy wiec "exit"
+   -> ale jeszcze jestem zalogowana jako uzytkownik, tutaj tez mozna wpisac polecenie aptitude, ale nie mamy przywilejow roota, nie moza wprowadzac zmian
+
+   //ubuntu jest pochodna od debiana
+
