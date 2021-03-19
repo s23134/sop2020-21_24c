@@ -1,0 +1,38 @@
+2021.03.06 s11126 
+Instalacja systemu Linux(w wersji Debian) na maszynie wirtualnej Oracle VM VirtualBox 6.1
+Debian jest projektem wolnej dystrubicji systemu operacyjnego GNU/Linux jak i również GNU/kFreeBSD.
+
+Proces Instalacji
+-Pobranie Debiana
+-Tworzenie nowej wirtualnej maszyny w Oracle VM VirtualBox
+* Wybor nazwy, folderu docelowego instalacji oraz wersji.
+* Przydzielenie wielkości RAM (w moim wypadku 4096mb) Powinna być wielokrotnością 2
+* Dodanie wirtualnego dysku do nowej maszyny. (opcją również jest stworzenie całkowicie nowego dysku tawrtego, uzyć ostniejącego lub w ogóle nie dodawać nowego dysku)
+* Wybór formatu pliku do użycia z nowym wirtualnym dyskiem twardym. VDI/VHD/WMDK
+* Wybór wirtualnego dysku jako przydzielany dynamicznie (rośnie wraz z użyciem), drugą możliwą opcją jest stały rozmiar.
+* Lokalizacja pliku i rozmiaru wirtualnego dysku na komputerze
+-Ustawienia maszyny wirtualnej
+*W ustawieniach maszyny wirtualnej w zakładce PAMIĘĆ wybieramy plik .iso z Debianem do zamontowania
+-Przy pierwszym uruchomieniu maszyny klikamy F12 zanim zniknie logo VirtualBox
+*Dzięki tej akcji mamy możliwość wyobru instalacji (Graphic install, install, install with speech synthesis). Ja zainstalowałem 'install'.
+-Instalacja Ubuntu
+*Język ENGLISH
+*Lokalizacja other->Europe->Poland
+*Układ klawiatury United States
+*Keymap American English
+-na tym etapie musimy wiedzieć, że Linux rozróżnia małe/duże znaki
+*Podajemy nazwę komputera
+*Podajemy hasło dla root
+*Podajemy nazwę użytkownika
+*Podajemy login użytkownika
+*Podajemy hasło dla użytkownika
+-Przydzielanie miejsca dysku wirtualnego na partycje
+*Guided - use entire disk (opcje wprowadzone przez creator)
+*Guided - use entire disk and set up LVM (stworzone partycje są zarządzane przez system LVM - można dodawać i rozszerzac istniejące parycje)
+*Guided - use entire disk and set up encrypted LVM (to samo co poprzednia opcja z dodatkiem szyfrowania)
+*Manual - ręczne przydzielanie rozmiaru i ilości partycji
+-Tworzenie i przydzielanie partycji dzięki opcji 'Manual'
+*Pri/Log 16.GB -> Create New Partition -> Przydzieliłem 12GB -> Primary -> Beginning -> Ext4 journaling file system -> mount point -> bootable flag ON -> Done setting up the partition -> Pri/Log pozostały rozmiar 4GB -> Create New Partition -> Enter -> Logical -> use us: swap area -> Done setting up the partition -> Finish partitioning and wirte changes -> YES
+-Opcja wyboru skąd system ma pobrać dodatkowe pakiety bezpośrednio z internetu (Poland -> ftp.task.gda.pl)
+-Wybieramy co cchemy zainstalować (Debian desktop enviroment/GNOME/Xfce/KDe Plasma/Cinnamon/MATE/LXDE/LXQt/web server/SSH server/standard system utulities)
+-Boot loader zostaje zamieszczony na początku dysku tawrtego który uruchomi nam komputer.2 Wybor, czy plik wirtualnego dysku powinien być przydzielany dynamicznie (rosnąć wraz z uzyciem), czy mieć staly rozmiar (taki jaki został stworzony).2.3.3 Lokalizacja pliku ku po wyborze opcji Manual.5.11.1 pri/log 8.6GB > create new partition > wybor rozmiaru (2GB mniej niż podane) > typ partycji [Primary] >  lokacja nowej partycji [Beginning] > ustawienie partycji [Ext4 journaling file system], mount point [/] bootable flag zątku dysku twardego musi znaleźć się program Boot loader tj. program, który uruchomi komputer.
