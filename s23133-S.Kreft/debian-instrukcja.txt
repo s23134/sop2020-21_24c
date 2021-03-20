@@ -1,0 +1,86 @@
+07.03.2021 Instalacja systemu Debian
+
+1. Wchodzimy na strone debian.org
+2. Mozemy pobrac obraz pliku o roznej wielkosci
+	- maly plik obrazu - moze byc szybko pobrany i powinien byc nagrany na dysku wymiennym.
+		Zeby zainstalowac z niego debian potrzebujemy polaczenia internetowego
+	- kompletny plik obrazu - zawiera wiecej pakietow i przez to wiekszy rozmiar, umozliwia instalacje bez polaczenia z internetem
+	Mozemy pobrac system w wersjach 32 i 64 bitowych
+	- mozemy tez pobrac obraz o rozmiarze jeszcze mniejszym niz maly plik z obrazem - musimy wtedy pobrac wersje odpowiednia dla architektury
+	naszego procesora oraz posiadac polaczenie z internetem podczas instalacji
+	- Mozna tez skonfigurowac serwer TFTP i DHCP, tak aby obslugiwal media instalacyjne w sieci lokalnej. Jesli BIOS komputera obsluguje te mozliwosc
+	mozna wystartowac na nim instalacje Debiana z sieci
+3. Odpalamy Virtual Boxa
+4. Tworzymy nowa maszyne wirtualna
+	- w zakladce maszyna wybieramy opcje "nowa"
+	- nadajemy nazwe maszynie
+	- wybieramy katalog w ktorym bedzie sie znajdowala
+	- z listy rozwijanej wybieramy typ i wersje systemu (w tym konkretnym przypadku ustawia sie to automatycznie po wpisaniu "debian" jako nazwa maszyny
+		Jesli w liscie z wersja systemu mamy same wersje 32 bitowe, to najprawdopodobniej mamy zainstalowany i uruchomiony program Hyper-v
+5. Wybieramy ile pamieci RAM przydzielimy maszynie wirtualnej 
+	- w celu poprawnego dzialania nalezy wybierac wartosci bedace wielokrotnascia liczby 2
+6. Nastepnie wybieramy czy chcemy utworzyc wirtualny dysk twardy
+	-	jego minimalna wielkosc to 8 GB
+	- 	mozna utworzyc nowy lub podac sciezke do istniejacego
+7. Wybieramy typ pliku z wirtualnym dyskiem
+	- VDI(VirtualBox Disk Image) - jest to format VirtualBoxa, dziala z nim najlepiej
+	- VHD(Virtual Hard Disk) - obraz dysku twardego w formacie Microsoftu
+	- VMDK(Virtual Machine Disk) - format uzywany przez VMware
+8. Wybieramy czy chcemy zeby dysk zostal utworzony ze stalym rozmiarem, czy chcemy zeby rozmiar zwiekszal sie dynamicznie az do osiagniecia ustalonej wczesniej wartosci
+9. Ustawiamy wielkosc dysku wirtualnego, minimalna wielkosc to 8 GB
+
+USTAWIENIA MASZYNY WIRTUALNEJ
+
+10. W zakladce System mozemy wybrac liczbe procesorow i stopien w jakim maja byc wykorzystywane przez maszyne.
+	Ustawiamy tam rowniez kolejnosc bootowania
+11. W zakladce Pamiec mozemy zaladowac pobrany przez nas obraz systemu debian
+12. W zakladce Siec z list rozwijanej mozemy wybrac sposob podlaczenia maszyny do internetu
+	- NAT- wirtualna maszyna jest odseparowana od komputera na ktorym ja uruchamiamy, ale bedzie miala do niego przez ten komputer dostep
+	- Mostkowana karta sieciowa - maszyna wirtualna bedzie widziana przez siec jakby byla osobnym, niezaleznym komputerem
+	- Siec wewnetrzna - sluzy do komunikacji maszyn wirtualnych miedzy soba, ale nie z komputerem na ktorym jest uruchamiana
+	- Karta sieci izolowanej- komunikacja pomiedzy hostem a ta jedna konkretna maszyna wirtualna
+	- Rodzajowy sterownik- sterownik potrzebny do specjalnego typu komunikacji
+	- Siec NAT - podobne do NAT, mozna wybrac siec NAT-owana
+	- Cloud Network - pozwala lokalnej maszynie wirtualnej dzialac tak jakby byla uruchomiona w chmurze
+	- Niepodłączona - mazyna wirtualna nie ma dostepu do internetu
+	
+INSTALACJA
+
+13. Uruchamiamy maszyne i gdy pojawi sie logo virtualboxa szybko naciskamy f12
+14. Mamy opcje: 
+	- Floppy - instalacja z dyskietki
+	- CD-ROM - instalacja z plyty
+	- LAN - instalacja przez siec
+	W tym przypadku domyslnie jest ustawione na bootowanie z dysku
+15. Nastepnie mamy opcje instalacji
+	- Graphical install - instalator graficzny
+	- install - instalator tekstowy - uruchamia sie szybciej, zuzywa mniej zasobow
+16. Wybieramy wersje jesykowa, najlepiej angielska
+17. Wybieramynasze polozenie(kraj)
+18. Wybieramy uklad klawiatury
+19. Podajemy nazwe komputera - domyslnie jest to debian, lepiej zeby byla inna niz nazwa uzytkownika
+20. Ustalamy haslo dla Root'a
+21. Wpisujemy nazwe nowego uzytkownika, najlepiej pisac z malych liter
+22. Wpisujemy login nowego uzytkownika
+23. Wpisujemy haslo dla nowego uzytkownika
+24. Opcje partycjonowania dysku:
+	- Guided - use entire disk; caly dysk zostanie przeformatowany i zostana na nim automatycznie utworzone partycje
+	- Guided - use entire disk and set up LVM; tworza sie partycje zarzadzane przez LVM - na dzialajacym systemie mozna przesowac partycje, 
+	zmienia ich rozmiar itp.
+	- Guided - use entire disk and set up encryptedLVM; to samo co wyzej, tylko partycje sa szyfrowane
+	- Manual - reczne ustawienie partycji
+25. Po wybraniu Manual mozemy recznie wybrac rozmiary partycji oraz system plikow, Ext4 to opcja natywna dla Linuxa
+	- mozemy utworzyc 4 partycje podstawowe i nieograniczona ilosc partycji logicznych
+26. Podajemy skad maja byc pobierane pakiety do dalszej instalacji (wybieramy serwer mozliwie najblizej naszej lokalizacji)
+27. Nastepnie wybieramy co chcemy zeby bylo zainstalowane - wybieramy SSH server
+28. Wybieramy czy chcemy zainstalowac bootloader, wybieramy yes i dysk sda
+
+URUCHOMIENIE
+
+29. Uruchamiamy Debiana
+30. wybieramy Debian GNU/Linuxa
+31. logujemy sie
+32. bedoc zalogowanym jako root komenda tasksel mozemy doinstalowac pakiety
+33. apt-get update - spowoduje pobranie nowych list pakietow na ten system
+34. do instalacji pakietow mozemy uzywac aptitude(po jego wczesniejszym zainstalowaniu)
+
