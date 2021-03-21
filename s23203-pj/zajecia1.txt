@@ -1,0 +1,88 @@
+Instalacja Debian
+Musimy wejść na strone internetową Debian(www.debian.org.)Pobieramy plik, który się znajduję na glównej stronie, pobraliśmy to, zaczynamy instalację:
+Uruchom "VirtualBox".
+Robimy nową maszyne, podajemy nazwe
+Ustawiamy typ "Linux" i wersję "Debian"
+"Dalej" i teraz ustawiamy pamięć RAM
+Przechodzimy dalej, tworzymy nowy wirtualny dysk twardy.
+Przechodzimy dalej, widzimy 6 opcji (Wybieramy VDI):
+	VDI (VirtualBox Disk Image) - format specyficzny dla VirtualBox.
+	VMDK (Virtual Machine Disk)- format używany przez oprogramowanie do wirtualizacji "VmWare"
+	VHD (Virtual Hard Disk) - format używany przez "Microsoft Virtual PC"
+	HDD (Parallels Hard Disk) - format używany przez komercyjne oprogramowanie "Parallels Workstation" firmy "Parallels, Inc".
+	QED (QEMU enhanced disk) - format specyficzny dla maszyny wirtualnej (KVM) bazującej na jądrze Linuxa
+	QCOW (QEMU Copy-On-Write) - format stosowany w celu uzyskania wirtualnej przestrzeni dyskowej. Mechanizm ten pozwala na znaczne zmniejszenie wymaganej przestrzeni dyskowej w sytuacji,
+gdy ten sam obraz dysku twardego wykorzystywany jest przez wiele maszyn wirtualnych oraz przyczynia się do zwiększenia wydajności, gdyż odczyty z dysku są przechowywane w pamięci cache znajdującej się w RAM i z tej pamięci serwowanesą żądania kolejnych odczytów pochodzące od innych maszyn wirtualnych.
+Następny krok ma dwie opcję: 
+
+	Dynamicznie przedzielany - wybiramy ten
+	Stały rozmiar - a tu odrazu ją zarezerwuję.
+Lokalizujemy plik i wstawiamy rozmiar.
+Przychodzimy do "Ustawień" i wchodzimy do "System" (na wkładce "Płyta główna" w "Kolejności bootowania" ustawiamy tak żeby został tylko "Dysk twardy")
+"Procesor" możemy wstawić 2 CPU i tu nic więcej nie zmieniamy.
+Przechodziemy do "Pamięć" żeby załadować ten plik który pobraliśmy z internetu.
+
+	URUCHOM DEBIAN 
+
+Deteced hard disk:
+AHCI controler :
+
+1) hard disk: system operacyjny uruchomi sie z pierwszego dysku twardego
+f) Floppy: Podajemy obraz dyskietki, która zostanie użyta do uruchomienia maszyny wirtualnej 
+c) cd-ROM: Uruchomienie z ISO
+l) LAN: opcja do uruchamiania komputera przez sieć 
+b) continue booting: uruchomi sie z domyślnego dysku twardego
+
+	KLIKAM C)
+
+a) Debian installer menu 6 opcji do wyboru:
+b) Graphicall install: instalator graficzny
+c) Install: tryb tekstowy
+d) Advanced options: tryby przywracania systemu
+e) Accessible dark contrast menu installer: lepiej widoczny dla krótko widzów Help
+f) Install with speed synthesis:Instalator będzie dźwiękiem informował o opcjach zaznaczanych
+
+	WYBIERAM INSTALL
+
+Do wyboru język instalacji systemu: wybieram angielski, wybieram region z, którego sie łączę, znaki wybieram United States en_US.UTF-8--> wybieram klawiaturę american english
+
+Klikamy enter i czekamy az system wczyta dane. Nastepnym krokiem jest podanie hostname/domene. My akurat zostawiamy puste okienko i klikamy enter. Nastepny jest Root password(uzytkownik,administrator-moze wszystko w systemam linux), w ramach bezpieczenstwa takie haslo powinno byc dlugie, nie znane nikomu poza administratorami. Aby zaznaczyc Show password, klikamy tab a przesc do tego wiersza i klikamy spacje aby zaznaczyc. Zatwierdzamy. Nastepnie jest glowny uzytkownik(imie i nazwisko). Login lepiej zeby nie mial wiecej niz 8 znakow, jesli jednak przekroczymy to max do 16. Pozniej moga wyjsc problemy.
+Kolejnym krokiem jest Username/nazwa uzytkownika. Nastepnie tworzymy haslo dla uzytkownika i zatwierdzamy.
+
+PARTYCJONOWANIE:
+
+Guided - use entire disk (kreator),
+Guided - use entire disk and set up LVM (to samo z dynamicznym zarzadzaniem miejscami),
+Guided - use entire disk and set up encrypted LVM (to samo co oprzednio ale z szyfrowaniem danych),
+Manual - reczne partycypowanie.
+
+Nalezy wybrac manualne partycjonowanie, wybrac zamatowana maszyny i wyczyscic (FREE SPACE).
+Wcisnac FREE SPACE i create new partition:
+rozmiar - to co sie wyswietli minus 2GB,
+primary partition (pierwsza) > begining,
+Bootable flag : on,
+Done setting up the partition.
+
+W ten sposob uwtorzy sie podstawowa partycja.
+
+Nastepnie nalezy stworzyc nastepna partycje:
+rozmiar - pozostale 2GB,
+logical partition,
+Use as > swap area,
+Done setting up the partition.
+
+Partycjonowanie zakonczone, nalezy wcisnac:
+Finish partitioning and write changes to disk.
+W podsumowaniu wcisnac > Yes.
+W Scan another CD or DVD > No.
+
+Następnie zapisujemy zmiany na dysku--> Wybieramy serwer, z którego będą pobierane pakiety: Poland -->fttp.task.gda.pl
+--> software seletcion(wyłączamy wszystko poza dwoma ostatnimi opcjami)--> pytanie gdzie teraz zainstalować system-->wybieramy dysk twardy
+--> dostajemy informacje, że instalacja została zakończona (maszyna virtualna sie restartuje )--> teraz wybieram Debian GNU/Linux
+
+Podajemy login użytkownika i hasło 
+Alt+f2 przechodzimy na kolejna konsolę tekstową  tty1->tty2 logujemy sie jako root. Poleceniem apt-get update auktualizuje listę pakietów 
+apt-get install aptitude (instalowany pakiet)
+apt search (można coś wyszukać)
+wpisuje exit żeby sie wylogować z root
+
