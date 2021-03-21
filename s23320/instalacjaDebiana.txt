@@ -1,0 +1,65 @@
+Przygotowanie maszynki wirtualnej w programie Oracle VM VirtualBox
+1. W zakladce maszyna klikamy Nowa...
+2. Nadajemy nazwe maszynki, gdzie ma byc zapisana, typ oraz wersje
+3. Ustalamy rozmiar pamieci RAM (nadana pamiec powinna byc wielokrotnoscia liczby dwa)
+4. W oknie dysk twardy wybieramy opcje druga
+5. Jako typ pliku wybieramy VDI czyli VirtualBox Disk Image
+6. Nastepnie wybieramy sposob przydzielania pamieci fizycznej dla maszynki (wybor zalezy od 
+preferencji uzytkownika)
+7. Wybor lokalizacji pliku jak i jego rozmiar (8 GB)
+8. Maszyna zostala stworzona przed jej uruchominiem nalezy ja skonfigurowac
+	8.1 Klikamy na stworzona maszyne prawym przyciskiem myszy a nastepnie wybieramy 
+	Ustawienia...
+	8.2 Wybieramy zakladke System, odznaczmy w Kolejnosc bootowania Floppy oraz naped 
+	optyczny, dalej kilikamy na zakladke procesory i wybieramy ile procesorow ma miec 
+	nasza maszynka (wybor zalezy od preferncji uzytkownika)
+	8.3 Przechodzimy do zakladki Pamiec obok napisu Kontroler: IDE ponizej znajduje sie 
+	ikona plyty z napisem Brak klikamy w ten napisy, potem klikamy w iokone plyty po 
+	prawej stronie w opcij naped optyczny potem klikamy Choose a disk file... i 
+	wybieramy plik iso ktory nas interesuje
+	
+Konfiguracja maszynki zakonczona, teraz przejdziemy do instalacji Debiana bez GUI
+
+1. Uruchamiamy nasza maszyne i szybko w oknie maszynki klikamy F12
+2. Pojawi nam sie okno bootowania tam wybieramy CD-ROM
+3. Wybieramy opcie Install
+4. Wybieramy jezyk (najlepiej wybrac angielski), do poruszanie sie po menu instalacyjnym 
+uzywamy strzalek, tab do przelaczania sie miedzy opcjami oraz enter do zatwierdzania
+5. Wybieramy nasza lokalizacje other -> Europe -> Poland
+6. Wybieramy uklad klawiatury (najlepiej wybrac United States)
+7 . Wybeiramy American English 
+8. Po zaladowaniu plikow wybieramy hostname
+9. Wybieramy domain name tutaj nic nie wpisujemy wybieramy tylko continue
+10. Ustalamy haslo dla uzytkownika root (jezeli chcemy zobaczyc haslo przechodzimy 
+do Show Password in Clear za pomoza tabulatora i odznaczamy za pomoca spacji)
+11. Nadajemy nazwe nowemu uzytkownikowi
+12. Potem podajemy login uzytkownika nastepnie haslo
+13. Teraz przechodzimy do podzialu dysku na partycje i wybieramy opcje manual
+14. Wybieramy opcje SCSI3...  potem yes
+15. Dalej wybieramy pri/log ...
+16. Wybieramy Create a new partiton
+17. Nastepnie okreslamy rozmiar partycji i zatwierdzamy (8.6GB okolo)
+18. Wybieramy Primary
+19. Wybieramy Beginning
+20. W Partition settings, w Bootable flag wybieramy yes
+21. Potem wybieramy Done setting up the partiton
+22. Potem wybieramy partycje nie zainicjalizowana FREE SPACE
+23. Powtarzmy kroki od 16 do 19, z tym ze juz nie wybieramy rozmiaru partycji 
+(zostanie ona przydzielona automatycznie)
+24. Nastepnie w opcji Partition settings wybieramy Use as: i w tym oknie wybieramy swap area
+25. Teraz wybieramy Finish partitioning ...
+26. W nastepnym oknie wybieramy yes
+27. Po zaladowaniu plikow klikamy no
+28. Potem wybieramy skad system ma pobierac pliki wiec wybieramy poland (jezeli mieszkamy w polsce)
+a potem serwer ktory jest najblizej nas
+29. Potem jest okno konfiguracji proxy jezeli nie mamy to wciskamy enter
+30. Po kolejnym zaladowaniu plikow w pierwszym oknie wybieramy no
+31. W oknie software selection wybieramy co ma byc zainstalowane, do naszych potrzeb wystarczy 
+tylko SSH server oraz standard system utilities reszte odznaczamy spacja, a potem continue
+32. System zacznie pobierac to o wybralismy a potem ukaze sie kolejne okienko gdzie wybieramy yes 
+33. Potem wybieramy dysk sda
+34. Instalacja zakonczona ukaze nam sie okno informujace o zakonczeniu instalacji, wybieramy 
+continue
+
+Teraz mozesz spokojnie uzywac swojego systemu :)
+ 
