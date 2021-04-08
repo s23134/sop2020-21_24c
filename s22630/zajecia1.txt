@@ -1,0 +1,52 @@
+Instalacja systemu debian
+
+1. debian.org -> download -> obraz iso 64bit
+
+2. Oracle VirtualBox 
+   - Nowa maszyna 
+   - nazwa, typ maszyny debian 64-bit, pamięć ram
+   - stworz nowy dysk twardy 
+   - wybor formatu dysku (VDI, VMDK, VHD, HDD, QED, QCOW) najlepiej wybrac VDI, poniewaz jest dynamicznie alokowany i jest najbardziej popularny
+   - lokalizacja pliku i rozmiar (standardowo 8GB) albo więcej zależy od naszych preferencji i możliwości sprzętowych
+
+3. Ustawienia maszyny
+   - System, odznaczamy dyskietke oraz naped optyczny, zostaje tylko dysk twardy, zakladka procesor: ustawiamy dwa
+   - pamiec, kontroler: IDE, brak, nastepnie po lewej stronie w oknie klikamy na ikone plyty, tu wybieramy nasz pobrany wczesniej plik iso
+   - siec, ustawiamy NAT
+   - porty szeregowe, wylaczamy
+   - ustawiamy usb 2.0
+
+5. Instalacja debiana
+   - jezyk angielski
+   - lokalizacja z ktorej pochodze
+   - uklad klawiatury american english
+   - znaki United States en_US.UTF-8
+   - podaje hostname, wazne by byla inna od nazwy uzytkownika,
+   - nie podaje nazwy domeny
+   - podaje haslo dla roota
+   - podaje username z malych liter
+   - podaje haslo dla zwyklego uzytkownika
+   - podzial dysku na partycje wybieram opcje manual
+     guided - use entire disk (kreator)
+     guided - use entire disk and set up LVM - to samo z dynamicznie alokowana pamiecia
+     guided - use entire disc and set up encrypted LVM - to co wyzej tylko z uzyciem szyfrowania przy montowaniu partycji
+   - wybieram opcje kreatora i powrot do use entire disk
+   - SCSI3 (0,0,0) (sda) -> create new empty partition on this device -> yes, mamy teraz pusty dysk
+   - pri/log 8.6GB FREE SPACE -> create a new partition -> rozmiar 6.6 GB
+   - type for the new partition -> primary -> location -> beginning
+   - partiton settings, use as EXT4 - to system plikow na dysku z posrod wielu wybieram ext4
+   - montujemy glowny system /
+   - wlaczam bootable flag
+   - pri/log 2.0GB free space -> z pozostalych 2gb robie logiczne partycje swap
+   - koncze partycjonowanie
+   - podaje najblizsze mi miejsce do pobierania pakietow 
+   - koncze instalacje
+   - wyciagam obraz iso z napedu
+
+6. Uruchamianie systemu - logowanie
+   - loguje sie podajac username i haslo jakie wybralem pdoczas instalacji
+   - alt+F2 przechodze do kolejnego terminala
+   - loguje sie jako root
+   - instaluje menadzera pakietow -> apt-get install aptitude
+   - wypisuje aktualnie zalogowanego uzytkownika -> whoami
+   - wpisuje by sie wylogowac
