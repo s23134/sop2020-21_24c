@@ -1,0 +1,21 @@
+1.System instalation with VirtualBox
+	-easy setup even with text only
+
+2.Most important settings in vBox:
+-RAM 2048>
+-boot from hard disk
+-sound off
+-to use internet network -> NAT
+-enable USB
+
+3.Most important setting in Debian instalation:
+-language only ENG
+-Disk partition only manual!
+-Install bootloader!
+-remeber to set user and root diffrent password!
+
+4.Debian:
+-we can isntall programs/apps by apt-get or
+with aptitude(user-friendly)
+-u can switch to many terminals by ctrl+alt+F1..F12
+-commands man,info,help - your best friends!

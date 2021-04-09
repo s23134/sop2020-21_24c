@@ -1,0 +1,30 @@
+BASH
+
+1.echo:
+-echo -e "\e[31mtest" red colored "test"
+-echo have many options (good to knowXD)
+2.Bash:
+	#!/bin/bash
+	STRING="Hello World"
+	#print variable on a screen
+	echo $STRING
+
+Simple "Hellow World!" in bash using variable.
+
+$ chmod +x hello_world.sh !! u have to give permission to execute!
+
+$ ./hello_world.sh this is how u run your script
+
+3.Variables
+
+TEST ="global test"
+local TEST="local test"
+
+4.Executing shell commands with bash
+
+#!/bin/bash
+# use backticks " ` ` " to execute shell command
+echo `uname -o`
+
+
+
