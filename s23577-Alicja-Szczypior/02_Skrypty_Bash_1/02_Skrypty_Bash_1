@@ -1,0 +1,326 @@
+20200406
+_____________________________________________________________
+
+02 Skrypty Bash 1
+______________________________________________________________
+
+bash - is a Unix shell and command language interpreter for the GNU operating system, the name becomes from: "Bourne-Again SHell" is a command processor that typically runs in a text window where the user types commands that cause actions. Bash can also read and execute commands from a file, called a shell script.
+
+script - a text file with commands, which are interpreted by system shell, in Windows are .bat files (shell files) and .vbs files (VisualBasic Script), in Unix we have .sh (from shell). Script should has "executable attribute". In this file we can but it is not necessary to determine which interpreter should be used. We will use bash, so first line in script file is:
+#!/bin/bash (# means comment) sheebang
+
+Excercise 0.
+
+Create small script like:
+#!/usr/bin/env bash (this line is for new system on macOS)!!!!!
+# Skrypt wykorzystuje zaawansowane funkcje 
+# systemu do tego, aby narysować króliczka:
+echo -e "    \e[m(\\_/)"
+echo -e "   (=\e[33m'\e[31m.\e[33m'\e[0m=)"
+
+//first create file.sh and set chmod u+x, to run use command: ./file.sh
+-> Result:
+    (\_/)
+   (='.'=)
+
+console code - in man - colours we can read more information
+-e in bash enables to interpret special signs like "\*"
+echo -e "\e[31m" - now all new text in bash will be red
+echo -e "\e[0m" - now all new text in bash will be white (this is reset)
+
+Excercise 1.
+
+Write script showing "Witamy w terminalu".
+
+Script:
+#!/usr/bin/env bash
+
+echo -e " Witamy w terminalu"
+
+-> Result:
+ Witamy w terminalu
+
+Excercise 2.
+
+SHELL VARIABLES = ZMIENNE POWLOKI
+ZMIENNA=wartosc
+
+We can use:
+VARIABLE=oneWord
+VARIABLE="one word"
+VARIABLE='one word cd two words' - it enables to print all text what is in '', it doesnt matter if it is special sign
+
+export VARIABLE=value (export means that we can see variable in subshells - podpowloki)
+export -n (to remove environment variable)
+$ZMIENNA (to read variable value) 
+${ZMIENNA} (to read variable value - this is needed if variable has numbers in name or is array or if we want to make concatenation - konkatenacje)
+but better always use {} - it will always work properly
+
+X=tekst
+echo "$Xabc" -> nothing will happend
+echo "${X}abc" -> tekstabc
+echo '${X}abc' -> ${X}abc
+
+Excercise:
+X=tekst
+echo $X -> tekst
+bash //to open new shell of bash 
+echo $X -> empty (nothing)
+exit //to close this new opened shell
+export X //to eksport variable to subshells, now its gonna works
+PS tree -> tree of processess
+
+If we want to save more than one word in variable we should always ise X="test test" or X='test test' or X=a\ b
+
+bash-5.0$ X="Tekst 1"
+bash-5.0$ Y="teskt:$X"
+bash-5.0$ echo "$Y"
+teskt:Tekst 1
+bash-5.0$ Y=tekst:$X
+bash-5.0$ echo "$Y"
+tekst:Tekst 1
+
+Difference between " and ' is that ' enables to not read special signs by bash, all is text inside 'text'.
+
+bash-5.0$ A=Ala
+bash-5.0$ echo $A ma kota, a kot ma ${A}ę
+Ala ma kota, a kot ma Alaę - here is concatenation - how to combine two signs???
+
+VARIABLES:
+$*, $@ - all script arguments
+$0 - name of script
+$1, $2 - next script arguments
+$? - end the last command
+$$ - PID of current shell process
+$! - PID nadrzednej powloki bash
+$# - ilosc argumentow przekazanych do skryptu
+
+Excercise 3.
+
+What the variables hold: PATH, RANDOM, PWD, PS1, USER, HOSTNAME, OSTYPE?
+bash-5.0$ echo $PATH 
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+bash-5.0$ date
+wto  6 kwi 20:11:00 2021 CEST
+
+//PATH -> variable, is a list of directories where each director contains a UNIX executable file (or its alias) for a command/program. When a command is entered in the terminal, it searches for an executable file with the same name as the entered command in the PATH variable. Przeszukuje polecenia, by je potem uruchomic
+
+//RANDOM -> it generate random numbers
+echo $RANDOM
+
+//PWD -> shows current path
+
+//HOME -> shows path to home directory
+echo $HOME == echo$~
+
+//PS1 -> environment variable which contains the value of the default prompt. It changes the shell command prompt appearance and environment. PS2: environment variable which contains the value the prompt used for a command continuation interpretation. You see it when you write a long command in many lines
+
+//USER -> shows the user
+
+//HOSTNAME -> shows hosrname of my computer
+echo $HOSTNAME==hostname
+if we change the meaning of HOSTNAME like:
+HOSTNAME=ABC, we can easy reverse this changes:
+HOSTNAME=$(hostname)
+
+//OSTYPE -> shows operating system
+bash-5.0$ echo $OSTYPE
+darwin19.5.0
+
+VARIABLES:
+to assign the standard output of some command.
+ZM=$(ls -la) //safer, always works, needs three different signs
+ZM=`ls -la` //more clear, but not always works
+
+Excercise 4.
+
+bash-5.0$ X=$(ls -l)
+bash-5.0$ echo $X
+total 16 -rwxr--r-- 1 ala staff 52 6 kwi 19:07 excercise1.sh -rwxr--r--@ 1 ala staff 180 6 kwi 19:04 kroliczek.sh
+bash-5.0$ ls -l
+total 16
+-rwxr--r--  1 ala  staff   52  6 kwi 19:07 excercise1.sh
+-rwxr--r--@ 1 ala  staff  180  6 kwi 19:04 kroliczek.sh
+bash-5.0$ echo ${X}
+total 16 -rwxr--r-- 1 ala staff 52 6 kwi 19:07 excercise1.sh -rwxr--r--@ 1 ala staff 180 6 kwi 19:04 kroliczek.sh
+bash-5.0$ echo "$X" //the same result!!!!!! like using just ls -l
+total 16
+-rwxr--r--  1 ala  staff   52  6 kwi 19:07 excercise1.sh
+-rwxr--r--@ 1 ala  staff  180  6 kwi 19:04 kroliczek.sh
+
+Bash interprets the commands stored in a variable differently than the commands used in "".
+
+mobaXterm - useful bash in different console
+
+./skrypt.sh a b "c d"
+$@ - drukuje treść poza cudzysłowiem oraz w cudzysłowiu razem
+$* - drukuje jedną zmienną z treścią wypisaną bez cudzysłowia
+
+Excercise 5.
+
+String operations
+echo $((5/2))
+result -> 2 //operacje calkowito liczbowe, bo operacje ograniczaja sie do całych bitów
+
+bash-5.0$ X=5
+bash-5.0$ echo $((2*X)) or echo $((2*$5)) or echo $((2*${5})) //(()) it is math operation so we dont need to use $ operand
+result -> 10
+
+${#TEKST} - długość ciągu znaków
+${TEKST:p} - podciąg rozpoczynający się od znaku o indeksie p
+${TEKST:p:l} - podciąg rozpoczynający się od znaku o indeksie p, a długości l
+${TEKST/w/z} - zamienia tekst pasujący do ```w``` na tekst ```z```
+
+bash-5.0$ TEKST="lubię fioletowe szampony"
+bash-5.0$ echo ${TEKST}
+lubię fioletowe szampony
+bash-5.0$ echo ${#TEKST}
+24
+bash-5.0$ echo -e "${TEKST}\n1234567890123456789012345678901234"
+lubię fioletowe szampony
+1234567890123456789012345678901234
+bash-5.0$ echo "\"${TEKST:0:4}"\"
+"lubi"
+bash-5.0$ echo ${TEKST/i/*}
+lub*ę fioletowe szampony
+bash-5.0$ echo ${TEKST/fioletowe/niebieskie}
+lubię niebieskie szampony
+bash-5.0$
+
+Excercise first part:
+bash-5.0$ A=Ala
+bash-5.0$ echo $A ma kota, a kot ma ${A/a/ę}
+Ala ma kota, a kot ma Alę
+
+or
+
+bash-5.0$ echo $A ma kota, a kot ma ${A/a/}ę
+Ala ma kota, a kot ma Alę
+
+or
+
+bash-5.0$ echo $A ma kota, a kot ma ${A:0:2}ę
+Ala ma kota, a kot ma Alę
+
+Excercise second part:
+To do:
+Napisz skrypt, który będzie wypisywał taki tekst także dla imion męskich. Pomijamy zdrobnienia i imiona które się dziwnie odmieniają (na przykład Marek). Niech skrypt ten przyjmuje jeden argument - imię. Przykładowe wywołanie:
+
+ $ ./pszetżkole Ala
+Ala ma kota, a kot ma Alę
+ $ ./pszetżkole Justyna
+Justyna ma kota, a kot ma Justynę
+ $ ./pszetżkole Stefan
+Stefan ma kota, a kot ma Stefana
+
+Script:
+#!/usr/bin/env bash
+
+str=$1
+#ostatnia litera $((${#str}-1));
+if [[ "${1:${#str}-1:${#str}}" == "a" ]]
+then 
+    echo "$1 ma kota, a kot ma ${1/a/ę}"
+else 
+    echo "$1 ma kota, a kot ma ${1}a"
+fi
+exit 0
+
+Result:
+bash-5.0$ ./pszetżkole.sh Ala
+Ala ma kota, a kot ma Alę
+bash-5.0$ ./pszetżkole.sh Jędrzej
+Krzysztof ma kota, a kot ma Krzysztofa
+
+Excercise 3. part:
+To do:
+Napisz skrypt, który wczyta jako argument jakiś tekst. Skrypt ten wypisze kolejno:
+
+Pierwszy znak z argumentu
+Ostatni znak z argumentu
+Zamieni w argumencie tekst SOP na tekst poniżej (zastosuj echo z przełącznikiem -e):
+\\e[32mSOP\\e[0m
+
+Script:
+#!/usr/bin/env bash
+
+str=$1
+sub="SOP"
+#pierwsza litera ${str:0:1}
+#ostatnia litera $((${#str}-1));
+#pierwsza litera ${str:0:1}
+echo "${str:0:1}"
+echo "${str:${#str}-1:${#str}}"
+#echo "$((${#str}-1))" dlugosc łańcucha znaków
+if [[ "$str" == *"$sub"* ]]
+then 
+    echo -e "\\e[32mSOP\\e[0m"
+fi
+exit 0
+
+Result:
+bash-5.0$ ./zad5cz2.txt "Ala ma kota"
+A
+a
+bash-5.0$ ./zad5cz2.txt "Ala ma kotkę"
+A
+ę
+bash-5.0$ ./zad5cz2.txt "Ala nie ma kotki, ale uczy się pisać skrypty w bashu z SOP na drugim semestrze"
+A
+e
+SOP //to jest zielone :)
+
+
+REGULAR EXPRESSIONS 
+
+#
+##
+%
+%%
+we can cut specific part of the text
+
+Example:
+bash-5.0$ TEKST=wieczor.aaa.bbb
+bash-5.0$ echo ${TEKST##*.}
+bbb
+
+bash-5.0$ echo ${TEKST%*.}
+wieczor.aaa.bbb
+
+bash-5.0$ echo ${TEKST%.*}
+wieczor.aaa
+
+bash-5.0$ echo ${TEKST#.*}
+wieczor.aaa.bbb
+
+sed - regular expressions
+
+example: cat jakisplik | sed 's/ala/magda/' //it change ala to magda in file
+
+sed is important! Lets learn it :)
+
+example:
+bash-5.0$ echo Alicja | sed s/a$/ę/g | sed 's/\([^ę]\)$/\1a/g'
+Alicję
+
+HOMEWORK:
+
+Script: kolorowanie.sh
+#!/usr/bin/env bash
+
+#cat $1 | sed ''/Ala/s//$(printf "\033[31mAla\033[0m")/'' 
+cat $1 | sed ''s/Ala/`printf "\033[31mAla\033[0m"`/g'' 
+
+Result: on file kolorowanietest.txt
+bash-5.0$ ./kolorowanie.sh kolorowanieplik.txt
+
+Bedziemy kolorowac moje imie Ala, zawsze wtedy kiedy wystapi na czerwono.
+Ala nie ma kota. Ala lubi spac. Ala.
+//word Ala is red (you can check it on attached screenshot: kolorowanie_zadanie_domowe).
+
+ 
+
+
+
+
+
