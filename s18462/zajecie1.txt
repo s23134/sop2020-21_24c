@@ -1,5 +1,139 @@
-SOP zajęcia 1 – Instalacja Debian
+Na pierwszych zajęciach zadaniem jest zainstalowanie  systemu operacyjnego Debian.
 
+Wchodzimy na stronę producenta debian.org
+
+Pobrać Debian można na trzy sposoby:
+
+Małe płyty CD/ pamięć USB
+Najmniejsze płytki
+Bootowanie przez sieć
+Wybieramy opcje pobrania pliku obrazu oraz wybieramy czy chcemy zainstalować:
+
+mały plik obrazu (potrzeba internetu podczas pobierania, szybko się pobiera)
+Kompletny plik obrazów (zawiera więcej pakietów instalacyjnych oraz nie potrzebuje połączenia internet podczas instalacji)
+Tak więc, wybieramy mały plik obrazu dla systemu 64-bitowego.
+
+Tworzymy nową maszynę wirtualną używając programu VirtualBox:
+W lewym górnym rogu wybieram Maszyna > Nowa
+
+Nadajemy ścieżkę zapisania naszej maszyny wirtualnej
+Tworzymy odpowidnią nazwę maszyny wirtualnej (w moim przypadku będzie to Debian, tak, aby nie mieć problemów z jej identyfikacją)
+Dając nazwe debian, VirtualBox rozpoznaję typ systemu operacyjnego – Linux i daję możliwość wybrania wersji (Linux 2.6, Arch Linux, Debian, Fedora, Gentoo) dla systemów 32-bit i 64-bit. Jeżeli w polu wyboru wersji mam tylko systemy 32-bit, oznacza to, że włączony jest system Hyper-V (znaczy to, że dostępna jest wirtualizacja programowa, czyli zainstalowanie systemu 32-bit).
+Zaznaczam Debian (64-bit).
+Ilość pamięci operacyjnej (RAM) dla maszyny wirtualnej:
+Wybieram ilość samodzielnie od (4 MB do X MB, w zależności ile mam pamięci RAM w komputerze)
+Zaleca się wybranie pamięci wielokrotnej dwójce (1024 MB, 2048 MB… itd.) 2048 MB powinno w zupełności wystarczyć.
+Dysk twardy:
+Są przedstawione trzy wersje do wyboru:
+a. Nie dodawaj wirtualnego dysku twardego
+b. Stwórz wirtualny dysk twardy
+c. Użyj istniejącego pliku wirtualnego dysku twardego
+Ponieważ tworzymy nową maszyne, zaznaczm opcje B.
+
+Wyp pliku z dyskiem wirtualnym:
+
+VDI (VirtualBox Disk Image) – domyślny format VirtualBox’a, najlepij też działa
+VHD (Virtual Hard Disk) – format Microsoft
+VMDK (Virtual Machine Disk) – format VMware
+Pamięć na fizycznym dysku twardym:
+Dynamicznie przydzielany – wraz z zapełnieniem dysku wirtualnego, tak samo jego rozmiar będzie rósł. Jest to wersja wolniejsza, ale wystarczająca dla nauczania się.
+Stały rozmiar – zarezerwujemy wyznaczone konkretnie miejsce w pamięci które nie uniknie zmianie. System chodzi troche szybciej.
+
+Lokalizacja pliku i rozmiar:
+Zaznaczamy ścieżkę do pliku a także wybieramy ilość pamięci dla obrazu dysku wirtualnego. Powinno wystarczyć 8 GB.
+Koniec procesu tworzenia maszyny wirtualnej.
+
+Konfiguracja maszyny:
+
+Ustawienia > System > Płyta główna
+
+standardowo zaznaczona jest następująca kolejność bootowania: Floppy (dyskietki), Napęd optyczny i Dysk Twardy. Odznaczamy Floppy i Napęd optyczny, ponieważ nie chcemy żeby się włączał za każdym razem. Możemy to też zrobić z innego menu.
+Ustawienia > System > Procesor
+
+zwiększamy ilość procesorów do 2, aby ułatwić sprawną pracę na maszynie wirtualnej.
+Ustawienia > Pamięć
+
+Klikamy na ikonkę dysku, podrozdział w Kontroler: IDE. Po prawej stronie widzimy menu i opcje napędów optycznych. Zaznaczamy dysk po prawej stronie od napisu i widzimy rozwijane menu, gdzie zaznaczamy opcje „Choose a disk file…”
+Tym plikiem który wybieram będzie właśnie ten sam plik, który pobrałem ze strony debian.org.
+
+Ustawienia > Dźwięk
+
+do celów nauki nie będziemy potrzebować dźwięku, także odznaczamy również tę opcje.
+
+Ustawienia > Sieć
+- Tu można wybrac kartę sięcowa, która łączy się do:
+1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
+2. Będzie widziany jak nowy,odrębny komputer
+3. Służy do komunikacji maszyn wirtualnych w wybranej sieci.
+4. Komuniakcja między hostem a konkretną maszyną wirtualną, komunkacja działa w dwie strony
+5. Tak samo jak nat, tylko z wybraniem przez użytkownika sieci komunikacji.
+6. Niepodłączona – karta sieciowa bez podłączenia do znanej dla VirtualBox'a sieci.
+
+Kontroller USB  - pozostaje włączony i USB 2.0
+
+Rodzaje uruchomienia maszyny wirtualnej:
+- Zwykły start
+- Bezgłowy start i oddzielny start – nie produkuje dodatkowych informacji, służy do stowrzenia najprostszego serwera.
+
+Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania.
+
+AHCI controller:
+1) Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
+f) Floppy – obraz dyskietki
+c) CD-ROM – wybieramy
+l) LAN – instalacja sieciowa
+
+Instalacja Debian Linux:
+Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca
+Install – instalacja tekstowa (szybsza isntlacja, używająca mniej zasobów), wybieramy
+Advanced options – opcja zaawansowane
+1.      Graphical expert install – wiecej opcji instalacji
+2.      Expert install – instalacja tekstowa
+3.      3. Rescue mode – używany w większości do naprawy uszkodzonego systemu operacyjnego, korzystając z podstawowego systemu z obrazu płyty.
+4.      Automated install – kiedy mamy przygotowany obraz dysku na przykład z bootowanego penrive’a.
+5.      Speech-enable speech synthesis – tryb wspomagający instalację przez odczyt tekstu na ekranie korzystając z synteezatora mowy.
+
+Wybieramy Install I zatwierdzam ENTER.
+Wybór języka -> angielski. Ponieważ łatwiejszy w obsłudze a także w poszukiwaniu pomocy w internecie + brak znaków specjalnych.
+
+Wybór lokalizacji  -> wybieramy Europa -> Polska
+
+Układ klawiatury -> wybieramy United States (wybieramy z powodu znaków specjalnych, nie będziemy mogli użyć polskich znaków)
+
+Rozkład klawiatury – American English (standardowy)
+
+Hostname (nazwa komputera) – domyślnie „debian”
+Domain name – zostawiamy puste
+Root password (hasło użytkownika root) – tworzymy dobrej złożoności hasło, aby zabezpieczyć dane.
+Powtarzamy wprowadzone hasło
+
+Full name for the new user: dowolne imie/nazwisko -> Denis Jewtuszenko
+Nazwa konta(login) -> najlepiej pisane tylko małymi literami, bez znaków specjalnych -> denis
+Hasło do nowego użytkownika - > dowolne hasło
+
+Podział dysku na partycje:
+1. Manual – ręczna instlacja
+2. Guided – use entire disk (formatowanie całego dysku)
+3. Guided – use entire disk and set up LVM (zarządzanie partycjami przez LVM, co daje możliwość zarządzania i modyfikacji partycji w trakcie pracy systemu operacyjnego.)
+4. Guided – use entire disk and set up encrypted LVM (dodatkowo szyfrowany, z podaniem hasła)
+
+Wybieramy Guided partitioning -> Use entire disk
+
+Podział partycji -> Separate /home, /var, /tmp partitions
+Kreator utowrzył 6 podstawowych partycji:
+Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes
+Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning
+Use as -> możemy wybrać dowolny typ ext4, ext2 itd.
+Wybieram Ext4 – domyślna dla linuxa
+Bootable dlag -> zmieniamy na Yes
+Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish
+
+NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl
+Wybór programów do instalacji: odznaczam Print server i zaznaczam SSH server.
+
+Instalacja boot loadera: Yes -> /dev/sda
+
+Instalacja zakończona
 Na pierwszych zajęciach zadaniem jest zainstalowanie obrazu systemu operacyjnego Debian.
 
 Wchodzimy na stronę producenta debian.org
@@ -62,38 +196,38 @@ Ustawienia > Dźwięk
 
 do celów nauki nie będziemy potrzebowało dźwięku, także odznaczamy również tę opcje.
 
-Ustawienia > Sieć 
+Ustawienia > Sieć
 - Tu można wybrac kartę sięcowa, która łączy się do:
-	1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
+        1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
 2.      – będzie widziany jak nowy,odrębny komputer
 3.      – służy do komunikacji maszyn wirtualnych w wybranej sieci.
 4.   – komuniakcja między hostem a konkretną maszyną wirtualną, komunkacja działa w dwie strony
 5. tak samo jak nat, tylko z wybraniem przez użytkownika sieci komunikacji.
-6. niepodłączona – karta sieciowa bez podłączenia kabla  
+6. niepodłączona – karta sieciowa bez podłączenia kabla
 
 Kontroller USB  - pozostaje włącany i USB 2.0
 
 Rodzaje uruchomienia maszyny wirtualnej:
-- Zwykły start 
+- Zwykły start
 -Bezłowy start i oddzielny start – nie produkuje dodatkowych informacji, służy do stowrzenia najprostszego serwera.
 
-Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania. 
+Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania.
 
 AHCI controller:
-1)	Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
+1)      Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
 f) Floppy – obraz dyskietki
 c) CD-ROM – wybieramy
-l) LAN – instalacja sieciowa 
+l) LAN – instalacja sieciowa
 
 Instalacja Debian Linux:
-Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca 
-Install – instalacja tekstowa (szybsza isntlaacja, używająca mniej zasobów), wybieramy 
+Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca
+Install – instalacja tekstowa (szybsza isntlaacja, używająca mniej zasobów), wybieramy
 Advanced options – opcja zaawansowane
-1.	Graphical expert install – wiecej opcji instalacji 
-2.	Expert install – istnalacja tekstowa
-3.	3. Rescue mode – przewracanie danych 
-4.	Aitomated install – kiedy mamy przygotowany plik na przykłąd z bootowanego penrive’a.
-5.	Speech-enable speech eynthesis – zaawanoswana isntalacja dźwiękowa.
+1.      Graphical expert install – wiecej opcji instalacji
+2.      Expert install – istnalacja tekstowa
+3.      3. Rescue mode – przewracanie danych
+4.      Aitomated install – kiedy mamy przygotowany plik na przykłąd z bootowanego penrive’a.
+5.      Speech-enable speech eynthesis – zaawanoswana isntalacja dźwiękowa.
 
 Wybieramy Isntall I zatwierdzam ENTER.
 Wybór języka -> angielski. Ponieważ łątwiejszy w obsłudze a także w poszukiwaniu pomocy w insterecie + brak znaków zspecjalnych.
@@ -105,12 +239,12 @@ Układ klawiatury -> wybieramy United States (wybieramy z powodu znaków specjal
 Rozkład klawiatury – American English (standardowy)
 
 Hostname (nazwa komputera) – domyślnie „debian”
-Domain name – zostawiamy puste 
+Domain name – zostawiamy puste
 Root password (hasło użytkownika root) – tworzymy dobrej złożoności hasło, aby zabezpieczyć dane.
 Powtarzamy wprowadzone hasło
 
-Full name dor the new user: dowolna imie/nazwisko, najlepiej z małej litery. -> denis 
-Nazwa konta -> denis 
+Full name dor the new user: dowolna imie/nazwisko, najlepiej z małej litery. -> denis
+Nazwa konta -> denis
 Hasło do nowego użytkownika - > dowolne hasło
 
 Podział dysku na partycje:
@@ -122,31 +256,425 @@ Podział dysku na partycje:
 Wybieramy Guided partitioning -> Use entire disk
 
 Podział partycji -> Separate /home, /var, /tmp partitions
-Kreator utowrzył 6 podstawowych partycji: 
-Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes 
-Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning 
+Kreator utowrzył 6 podstawowych partycji:
+Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes
+Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning
 Use as -> możemy wybrać dowolny typ ext4, ext2 itd.
-Wybieram Ext4 – domyślna dla linuxa 
+Wybieram Ext4 – domyślna dla linuxa
 Bootable dlag -> zmieniamy na Yes
-Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish 
+Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish
 
-NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl 
+NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl
 Wybór programów do instalacji: odznaczam Print server i zaznaczam SSH server.
 
-Instalacja boot loadera: Yes -> /dev/sda 
+Instalacja boot loadera: Yes -> /dev/sda
 
 Instalacja zakończona
+Na pierwszych zajęciach zadaniem jest zainstalowanie obrazu systemu operacyjnego Debian.
 
+Wchodzimy na stronę producenta debian.org
 
+Zainstalować Debian można na trzy sposoby:
 
+Małe płyty CD/ pamięć USB
+Najmniejsze płytki
+Bootowanie przez sieć
+Wybieramy opcje pobrania pliku obrazu oraz wybieramy czy chcemy zainstalować:
 
+mały plik obrazu (potrzeba internetu podczas pobierania, szybko się pobiera)
+Kompletny plik obrazów (zawiera więcej pakietów instalacyjnych oraz nie potrzebuje połączenia internet podczas instalacji)
+Tak więc, wybieramy mały plik obrazu dla systemu 64-bitowego.
 
+Tworzymy nową maszynę wirtualną używając programu VirtualBox:
+W lewym górnym rogu wybieram Maszyna > Nowa
 
+Nadajemy ścieżkę zapisania naszej maszyny wirtualnej
+Tworzymy odpowidnią nazwę maszyny wirtualnej (w moim przypadku będzie to Debian, tak, aby nie mieć problemów z jej identyfikacją)
+Dając nazwe debian, VirtualBox rozpoznaję typ systemu operacyjnego – Linux i daję możliwość wybrania wersji (Linux 2.6, Arch Linux, Debian, Fedora, Gentoo) dla systemów 32-bit i 64-bit. Jeżeli w polu wyboru wersji mam tylko systemy 32-bit, oznacza to, że włączony jest system Hyper-V (znaczy to, że dostępna jest wirtualizacja programowa, czyli zainstalowanie systemu 32-bit).
+Zaznaczam Debian (64-bit).
+Ilość pamięci operacyjnej (RAM) dla maszyny wirtualnej:
+Wybieram ilość samodzielnie od (4 MB do X MB, w zależności ile mam pamięci RAM w komputerze)
+Zaleca się wybranie pamięci wielokrotnej dwójce (1024 MB, 2048 MB… itd.) 2048 MB powinno w zupełności wystarczyć.
+Dysk twardy:
+Są przedstawione trzy wersje do wyboru:
+a. Nie dodawaj wirtualnego dysku twardego
+b. Stwórz wirtualny dysk twardy
+c. Użyj istniejącego pliku wirtualnego dysku twardego
+Ponieważ tworzymy nową maszyne, zaznaczm opcje B.
 
+Wyp pliku z dyskiem wirtualnym:
 
+VDI (VirtualBox Disk Image) – domyśłny format VirtualBox’a, najlepij też działa
+VHD (Virtual Hard Disk) – format Microsoft
+VMDK (Virtual Machine Disk) – format ViemWare
+Pamięć na fizycznym dysku twardym:
+Dynamicznie przydzielany – wraz z zapełnieniem dysku wirtualnego, tak samo jego rozmiar będzie rósł. Jest to wersja wolniejsza, ale wystarczająca dla nauczania się.
+Stały rozmiar – zarezerwujemy wyznaczone konkretnie miejsce w pamięci które nie uniknie zmianie. System chodzi troche szybciej.
 
+Lokalizacja pliku i rozmiar:
+Zaznaczamy ścieżkę do pliku a także wybieramy ilość pamięci dla obrazu wirtualnego. Powinno wystarczyć 8 GB.
+Koniec procesu tworzenia maszyny wirtualnej.
 
+Konfiguracja maszyny:
 
+Ustawienia > System > Płyta główna
 
+standardowo zaznaczona jest następująca kolejność bootowania: Floppy (dyskietki), Napęd optyczny i Dysk Twardy. Odznaczamy Floppy i Napęd optyczny, ponieważ nie chcemy żeby się włączał za każdym razem. Możemy to też zrobić z innego menu.
+Ustawienia > System > Procesor
 
+zwiększamy ilość procesorów do 2, aby ułatwić sprawną pracę na maszynie wirtualnej.
+Ustawienia > Pamięć
 
+Klikamy na ikonkę dysku, podrozdział w Kontroler: IDE. Po prawej stronie widzimy menu i opcje napędów optycznych. Zaznaczamy dysk po prawej stronie od napisu i widzimy rozwijane menu, gdzie zaznaczamy opcje „Choose a disk file…”
+Tym plikiem który wybieram będzie właśnie ten sam plik, który zainstalowałem ze strony debian.org.
+
+Ustawienia > Dźwięk
+
+do celów nauki nie będziemy potrzebowało dźwięku, także odznaczamy również tę opcje.
+
+Ustawienia > Sieć
+- Tu można wybrac kartę sięcowa, która łączy się do:
+        1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
+2.      – będzie widziany jak nowy,odrębny komputer
+3.      – służy do komunikacji maszyn wirtualnych w wybranej sieci.
+4.   – komuniakcja między hostem a konkretną maszyną wirtualną, komunkacja działa w dwie strony
+5. tak samo jak nat, tylko z wybraniem przez użytkownika sieci komunikacji.
+6. niepodłączona – karta sieciowa bez podłączenia kabla
+
+Kontroller USB  - pozostaje włącany i USB 2.0
+
+Rodzaje uruchomienia maszyny wirtualnej:
+- Zwykły start
+-Bezłowy start i oddzielny start – nie produkuje dodatkowych informacji, służy do stowrzenia najprostszego serwera.
+
+Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania.
+
+AHCI controller:
+1)      Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
+f) Floppy – obraz dyskietki
+c) CD-ROM – wybieramy
+l) LAN – instalacja sieciowa
+
+Instalacja Debian Linux:
+Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca
+Install – instalacja tekstowa (szybsza isntlaacja, używająca mniej zasobów), wybieramy
+Advanced options – opcja zaawansowane
+1.      Graphical expert install – wiecej opcji instalacji
+2.      Expert install – istnalacja tekstowa
+3.      3. Rescue mode – przewracanie danych
+4.      Aitomated install – kiedy mamy przygotowany plik na przykłąd z bootowanego penrive’a.
+5.      Speech-enable speech eynthesis – zaawanoswana isntalacja dźwiękowa.
+
+Wybieramy Isntall I zatwierdzam ENTER.
+Wybór języka -> angielski. Ponieważ łątwiejszy w obsłudze a także w poszukiwaniu pomocy w insterecie + brak znaków zspecjalnych.
+
+Wybór lokalizacji  -> wybieramy Europa -> Polska
+
+Układ klawiatury -> wybieramy United States (wybieramy z powodu znaków specjalnych, nie będziemy mogli użyć polskich znaków)
+
+Rozkład klawiatury – American English (standardowy)
+
+Hostname (nazwa komputera) – domyślnie „debian”
+Domain name – zostawiamy puste
+Root password (hasło użytkownika root) – tworzymy dobrej złożoności hasło, aby zabezpieczyć dane.
+Powtarzamy wprowadzone hasło
+
+Full name dor the new user: dowolna imie/nazwisko, najlepiej z małej litery. -> denis
+Nazwa konta -> denis
+Hasło do nowego użytkownika - > dowolne hasło
+
+Podział dysku na partycje:
+1. Manual – ręczna instlaacja
+2. Guided – use entire disk (formatowanie całego dysku)
+3. Guided – use entire disk and set up LVM (zarządzanie partycjami przez LVM, co daje możliwość edycji i zmany partycji)
+4. . Guided – use entire disk and set up encrypted LVM (dodatkowo szyfrowany, z podaniem hasła)
+
+Wybieramy Guided partitioning -> Use entire disk
+
+Podział partycji -> Separate /home, /var, /tmp partitions
+Kreator utowrzył 6 podstawowych partycji:
+Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes
+Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning
+Use as -> możemy wybrać dowolny typ ext4, ext2 itd.
+Wybieram Ext4 – domyślna dla linuxa
+Bootable dlag -> zmieniamy na Yes
+Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish
+
+NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl
+Wybór programów do instalacji: odznaczam Print server i zaznaczam SSH server.
+
+Instalacja boot loadera: Yes -> /dev/sda
+
+Instalacja zakończona
+Na pierwszych zajęciach zadaniem jest zainstalowanie obrazu systemu operacyjnego Debian.
+
+Wchodzimy na stronę producenta debian.org
+
+Zainstalować Debian można na trzy sposoby:
+
+Małe płyty CD/ pamięć USB
+Najmniejsze płytki
+Bootowanie przez sieć
+Wybieramy opcje pobrania pliku obrazu oraz wybieramy czy chcemy zainstalować:
+
+mały plik obrazu (potrzeba internetu podczas pobierania, szybko się pobiera)
+Kompletny plik obrazów (zawiera więcej pakietów instalacyjnych oraz nie potrzebuje połączenia internet podczas instalacji)
+Tak więc, wybieramy mały plik obrazu dla systemu 64-bitowego.
+
+Tworzymy nową maszynę wirtualną używając programu VirtualBox:
+W lewym górnym rogu wybieram Maszyna > Nowa
+
+Nadajemy ścieżkę zapisania naszej maszyny wirtualnej
+Tworzymy odpowidnią nazwę maszyny wirtualnej (w moim przypadku będzie to Debian, tak, aby nie mieć problemów z jej identyfikacją)
+Dając nazwe debian, VirtualBox rozpoznaję typ systemu operacyjnego – Linux i daję możliwość wybrania wersji (Linux 2.6, Arch Linux, Debian, Fedora, Gentoo) dla systemów 32-bit i 64-bit. Jeżeli w polu wyboru wersji mam tylko systemy 32-bit, oznacza to, że włączony jest system Hyper-V (znaczy to, że dostępna jest wirtualizacja programowa, czyli zainstalowanie systemu 32-bit).
+Zaznaczam Debian (64-bit).
+Ilość pamięci operacyjnej (RAM) dla maszyny wirtualnej:
+Wybieram ilość samodzielnie od (4 MB do X MB, w zależności ile mam pamięci RAM w komputerze)
+Zaleca się wybranie pamięci wielokrotnej dwójce (1024 MB, 2048 MB… itd.) 2048 MB powinno w zupełności wystarczyć.
+Dysk twardy:
+Są przedstawione trzy wersje do wyboru:
+a. Nie dodawaj wirtualnego dysku twardego
+b. Stwórz wirtualny dysk twardy
+c. Użyj istniejącego pliku wirtualnego dysku twardego
+Ponieważ tworzymy nową maszyne, zaznaczm opcje B.
+
+Wyp pliku z dyskiem wirtualnym:
+
+VDI (VirtualBox Disk Image) – domyśłny format VirtualBox’a, najlepij też działa
+VHD (Virtual Hard Disk) – format Microsoft
+VMDK (Virtual Machine Disk) – format ViemWare
+Pamięć na fizycznym dysku twardym:
+Dynamicznie przydzielany – wraz z zapełnieniem dysku wirtualnego, tak samo jego rozmiar będzie rósł. Jest to wersja wolniejsza, ale wystarczająca dla nauczania się.
+Stały rozmiar – zarezerwujemy wyznaczone konkretnie miejsce w pamięci które nie uniknie zmianie. System chodzi troche szybciej.
+
+Lokalizacja pliku i rozmiar:
+Zaznaczamy ścieżkę do pliku a także wybieramy ilość pamięci dla obrazu wirtualnego. Powinno wystarczyć 8 GB.
+Koniec procesu tworzenia maszyny wirtualnej.
+
+Konfiguracja maszyny:
+
+Ustawienia > System > Płyta główna
+
+standardowo zaznaczona jest następująca kolejność bootowania: Floppy (dyskietki), Napęd optyczny i Dysk Twardy. Odznaczamy Floppy i Napęd optyczny, ponieważ nie chcemy żeby się włączał za każdym razem. Możemy to też zrobić z innego menu.
+Ustawienia > System > Procesor
+
+zwiększamy ilość procesorów do 2, aby ułatwić sprawną pracę na maszynie wirtualnej.
+Ustawienia > Pamięć
+
+Klikamy na ikonkę dysku, podrozdział w Kontroler: IDE. Po prawej stronie widzimy menu i opcje napędów optycznych. Zaznaczamy dysk po prawej stronie od napisu i widzimy rozwijane menu, gdzie zaznaczamy opcje „Choose a disk file…”
+Tym plikiem który wybieram będzie właśnie ten sam plik, który zainstalowałem ze strony debian.org.
+
+Ustawienia > Dźwięk
+
+do celów nauki nie będziemy potrzebowało dźwięku, także odznaczamy również tę opcje.
+
+Ustawienia > Sieć
+- Tu można wybrac kartę sięcowa, która łączy się do:
+        1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
+2.      – będzie widziany jak nowy,odrębny komputer
+3.      – służy do komunikacji maszyn wirtualnych w wybranej sieci.
+4.   – komuniakcja między hostem a konkretną maszyną wirtualną, komunkacja działa w dwie strony
+5. tak samo jak nat, tylko z wybraniem przez użytkownika sieci komunikacji.
+6. niepodłączona – karta sieciowa bez podłączenia kabla
+
+Kontroller USB  - pozostaje włącany i USB 2.0
+
+Rodzaje uruchomienia maszyny wirtualnej:
+- Zwykły start
+-Bezłowy start i oddzielny start – nie produkuje dodatkowych informacji, służy do stowrzenia najprostszego serwera.
+
+Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania.
+
+AHCI controller:
+1)      Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
+f) Floppy – obraz dyskietki
+c) CD-ROM – wybieramy
+l) LAN – instalacja sieciowa
+
+Instalacja Debian Linux:
+Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca
+Install – instalacja tekstowa (szybsza isntlaacja, używająca mniej zasobów), wybieramy
+Advanced options – opcja zaawansowane
+1.      Graphical expert install – wiecej opcji instalacji
+2.      Expert install – istnalacja tekstowa
+3.      3. Rescue mode – przewracanie danych
+4.      Aitomated install – kiedy mamy przygotowany plik na przykłąd z bootowanego penrive’a.
+5.      Speech-enable speech eynthesis – zaawanoswana isntalacja dźwiękowa.
+
+Wybieramy Isntall I zatwierdzam ENTER.
+Wybór języka -> angielski. Ponieważ łątwiejszy w obsłudze a także w poszukiwaniu pomocy w insterecie + brak znaków zspecjalnych.
+
+Wybór lokalizacji  -> wybieramy Europa -> Polska
+
+Układ klawiatury -> wybieramy United States (wybieramy z powodu znaków specjalnych, nie będziemy mogli użyć polskich znaków)
+
+Rozkład klawiatury – American English (standardowy)
+
+Hostname (nazwa komputera) – domyślnie „debian”
+Domain name – zostawiamy puste
+Root password (hasło użytkownika root) – tworzymy dobrej złożoności hasło, aby zabezpieczyć dane.
+Powtarzamy wprowadzone hasło
+
+Full name dor the new user: dowolna imie/nazwisko, najlepiej z małej litery. -> denis
+Nazwa konta -> denis
+Hasło do nowego użytkownika - > dowolne hasło
+
+Podział dysku na partycje:
+1. Manual – ręczna instlaacja
+2. Guided – use entire disk (formatowanie całego dysku)
+3. Guided – use entire disk and set up LVM (zarządzanie partycjami przez LVM, co daje możliwość edycji i zmany partycji)
+4. . Guided – use entire disk and set up encrypted LVM (dodatkowo szyfrowany, z podaniem hasła)
+
+Wybieramy Guided partitioning -> Use entire disk
+
+Podział partycji -> Separate /home, /var, /tmp partitions
+Kreator utowrzył 6 podstawowych partycji:
+Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes
+Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning
+Use as -> możemy wybrać dowolny typ ext4, ext2 itd.
+Wybieram Ext4 – domyślna dla linuxa
+Bootable dlag -> zmieniamy na Yes
+Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish
+
+NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl
+Wybór programów do instalacji: odznaczam Print server i zaznaczam SSH server.
+
+Instalacja boot loadera: Yes -> /dev/sda
+
+Instalacja zakończona
+Na pierwszych zajęciach zadaniem jest zainstalowanie obrazu systemu operacyjnego Debian.
+
+Wchodzimy na stronę producenta debian.org
+
+Zainstalować Debian można na trzy sposoby:
+
+Małe płyty CD/ pamięć USB
+Najmniejsze płytki
+Bootowanie przez sieć
+Wybieramy opcje pobrania pliku obrazu oraz wybieramy czy chcemy zainstalować:
+
+mały plik obrazu (potrzeba internetu podczas pobierania, szybko się pobiera)
+Kompletny plik obrazów (zawiera więcej pakietów instalacyjnych oraz nie potrzebuje połączenia internet podczas instalacji)
+Tak więc, wybieramy mały plik obrazu dla systemu 64-bitowego.
+
+Tworzymy nową maszynę wirtualną używając programu VirtualBox:
+W lewym górnym rogu wybieram Maszyna > Nowa
+
+Nadajemy ścieżkę zapisania naszej maszyny wirtualnej
+Tworzymy odpowidnią nazwę maszyny wirtualnej (w moim przypadku będzie to Debian, tak, aby nie mieć problemów z jej identyfikacją)
+Dając nazwe debian, VirtualBox rozpoznaję typ systemu operacyjnego – Linux i daję możliwość wybrania wersji (Linux 2.6, Arch Linux, Debian, Fedora, Gentoo) dla systemów 32-bit i 64-bit. Jeżeli w polu wyboru wersji mam tylko systemy 32-bit, oznacza to, że włączony jest system Hyper-V (znaczy to, że dostępna jest wirtualizacja programowa, czyli zainstalowanie systemu 32-bit).
+Zaznaczam Debian (64-bit).
+Ilość pamięci operacyjnej (RAM) dla maszyny wirtualnej:
+Wybieram ilość samodzielnie od (4 MB do X MB, w zależności ile mam pamięci RAM w komputerze)
+Zaleca się wybranie pamięci wielokrotnej dwójce (1024 MB, 2048 MB… itd.) 2048 MB powinno w zupełności wystarczyć.
+Dysk twardy:
+Są przedstawione trzy wersje do wyboru:
+a. Nie dodawaj wirtualnego dysku twardego
+b. Stwórz wirtualny dysk twardy
+c. Użyj istniejącego pliku wirtualnego dysku twardego
+Ponieważ tworzymy nową maszyne, zaznaczm opcje B.
+
+Wyp pliku z dyskiem wirtualnym:
+
+VDI (VirtualBox Disk Image) – domyśłny format VirtualBox’a, najlepij też działa
+VHD (Virtual Hard Disk) – format Microsoft
+VMDK (Virtual Machine Disk) – format ViemWare
+Pamięć na fizycznym dysku twardym:
+Dynamicznie przydzielany – wraz z zapełnieniem dysku wirtualnego, tak samo jego rozmiar będzie rósł. Jest to wersja wolniejsza, ale wystarczająca dla nauczania się.
+Stały rozmiar – zarezerwujemy wyznaczone konkretnie miejsce w pamięci które nie uniknie zmianie. System chodzi troche szybciej.
+
+Lokalizacja pliku i rozmiar:
+Zaznaczamy ścieżkę do pliku a także wybieramy ilość pamięci dla obrazu wirtualnego. Powinno wystarczyć 8 GB.
+Koniec procesu tworzenia maszyny wirtualnej.
+
+Konfiguracja maszyny:
+
+Ustawienia > System > Płyta główna
+
+standardowo zaznaczona jest następująca kolejność bootowania: Floppy (dyskietki), Napęd optyczny i Dysk Twardy. Odznaczamy Floppy i Napęd optyczny, ponieważ nie chcemy żeby się włączał za każdym razem. Możemy to też zrobić z innego menu.
+Ustawienia > System > Procesor
+
+zwiększamy ilość procesorów do 2, aby ułatwić sprawną pracę na maszynie wirtualnej.
+Ustawienia > Pamięć
+
+Klikamy na ikonkę dysku, podrozdział w Kontroler: IDE. Po prawej stronie widzimy menu i opcje napędów optycznych. Zaznaczamy dysk po prawej stronie od napisu i widzimy rozwijane menu, gdzie zaznaczamy opcje „Choose a disk file…”
+Tym plikiem który wybieram będzie właśnie ten sam plik, który zainstalowałem ze strony debian.org.
+
+Ustawienia > Dźwięk
+
+do celów nauki nie będziemy potrzebowało dźwięku, także odznaczamy również tę opcje.
+
+Ustawienia > Sieć
+- Tu można wybrac kartę sięcowa, która łączy się do:
+        1. NAT – będzie korzystała z komputera z którego była uruchomiona maszyna wirtualna, jednak w pozostałej części będzie oddzielona od niej.
+2.      – będzie widziany jak nowy,odrębny komputer
+3.      – służy do komunikacji maszyn wirtualnych w wybranej sieci.
+4.   – komuniakcja między hostem a konkretną maszyną wirtualną, komunkacja działa w dwie strony
+5. tak samo jak nat, tylko z wybraniem przez użytkownika sieci komunikacji.
+6. niepodłączona – karta sieciowa bez podłączenia kabla
+
+Kontroller USB  - pozostaje włącany i USB 2.0
+
+Rodzaje uruchomienia maszyny wirtualnej:
+- Zwykły start
+-Bezłowy start i oddzielny start – nie produkuje dodatkowych informacji, służy do stowrzenia najprostszego serwera.
+
+Startujemy maszyne wirtualną i podczas załadowania klikamy F12 żeby wejść w szegóły bootowania.
+
+AHCI controller:
+1)      Hard Disk – uruchamiamy z pierwszego dysku twardego z już zainstalowanym SO.
+f) Floppy – obraz dyskietki
+c) CD-ROM – wybieramy
+l) LAN – instalacja sieciowa
+
+Instalacja Debian Linux:
+Graphical install – instalator graficzny, zwykła instalacja, zajmuje długo czasu i miejsca
+Install – instalacja tekstowa (szybsza isntlaacja, używająca mniej zasobów), wybieramy
+Advanced options – opcja zaawansowane
+1.      Graphical expert install – wiecej opcji instalacji
+2.      Expert install – istnalacja tekstowa
+3.      3. Rescue mode – przewracanie danych
+4.      Aitomated install – kiedy mamy przygotowany plik na przykłąd z bootowanego penrive’a.
+5.      Speech-enable speech eynthesis – zaawanoswana isntalacja dźwiękowa.
+
+Wybieramy Isntall I zatwierdzam ENTER.
+Wybór języka -> angielski. Ponieważ łątwiejszy w obsłudze a także w poszukiwaniu pomocy w insterecie + brak znaków zspecjalnych.
+
+Wybór lokalizacji  -> wybieramy Europa -> Polska
+
+Układ klawiatury -> wybieramy United States (wybieramy z powodu znaków specjalnych, nie będziemy mogli użyć polskich znaków)
+
+Rozkład klawiatury – American English (standardowy)
+
+Hostname (nazwa komputera) – domyślnie „debian”
+Domain name – zostawiamy puste
+Root password (hasło użytkownika root) – tworzymy dobrej złożoności hasło, aby zabezpieczyć dane.
+Powtarzamy wprowadzone hasło
+
+Full name dor the new user: dowolna imie/nazwisko, najlepiej z małej litery. -> denis
+Nazwa konta -> denis
+Hasło do nowego użytkownika - > dowolne hasło
+
+Podział dysku na partycje:
+1. Manual – ręczna instlaacja
+2. Guided – use entire disk (formatowanie całego dysku)
+3. Guided – use entire disk and set up LVM (zarządzanie partycjami przez LVM, co daje możliwość edycji i zmany partycji)
+4. . Guided – use entire disk and set up encrypted LVM (dodatkowo szyfrowany, z podaniem hasła)
+
+Wybieramy Guided partitioning -> Use entire disk
+
+Podział partycji -> Separate /home, /var, /tmp partitions
+Kreator utowrzył 6 podstawowych partycji:
+Wybieramy SCSI3 (0, 0, 0) sda – 8.6 GB ATA VBOX HARDDISK -> Yes
+Pri/log -> Create a new partition -> partision size 6.6 GB -> Primary -> Beginning
+Use as -> możemy wybrać dowolny typ ext4, ext2 itd.
+Wybieram Ext4 – domyślna dla linuxa
+Bootable dlag -> zmieniamy na Yes
+Pri/log 2 GB ->  -> Create a new partition -> partision 2 GB -> Primary -> Use as -> swap -> Finish
+
+NetInst -> Poland -> wybieramy najbliższe miejsce – task.gda.pl
+Wybór programów do instalacji: odznaczam Print server i zaznaczam SSH server.
+
+Instalacja boot loadera: Yes -> /dev/sda
+
+Instalacja zakończona
