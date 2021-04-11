@@ -29,6 +29,12 @@ echo -e "\e[0m"
 
 # Polecenie bash uruchamia kolejną powłokę basha, która nie dziedziczy zmiennych. Żeby zmienne mogły być dziedziczone należy je z osobna wyeksportować, np.
 export X
+# Temu samemu służy polecenie do uruchamiania skryptu 
+./nazwa_pliku.sh 
+# ./ uruchamia kolejną podpowłokę bash, w której wykonuje się skrypt. Powłoka ulega zamknięciu po skończeniu wykonywania skryptu. 
+# Żeby móc wykonać skrypt w tej samej powłoce należy uruchomić go tak: 
+. nazwa_pliku.sh
+# jednak NIE NALEŻY TAK ROBIĆ, ponieważ w skrypcie mogą znajdować się zmienne, które mogą nadpisać zmienne systemowe.
 
 # Ćwiczenie 3
 # PATH - zmienna zawierająca ścieżki do folderów zawierających programy, to one będą przeszukiwane, gdy zostanie wpisane polecenie w terminalu
@@ -42,7 +48,7 @@ export X
 # Ćwiczenie 4
 # Żeby przypisać pod zmienną wartość jakiejś komendy można to zrobić na dwa sposoby:
 ZM=$(ls -l) 	# ten sposób jest pewniejszy
-ZM='ls -l'
+ZM=`ls -l` # to jest backtick
 
 # Zwykłe wpisanie
 echo $ZM
