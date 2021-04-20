@@ -1,0 +1,175 @@
+21.02.2021   Skrypty w Bashu - część 1
+
+Scripts are text files. In Linux we use extension .sh (shell). This file needs to have executabe attribute.
+Script needs information which program is an interpreter. We use  "#!/bin/bash".
+ _______________________________________
+|ZADANIE 1				|								
+|					|
+|	!/bin/bash			|
+|	echo "Witamy w terminalu"	|
+|_______________________________________|
+	
+We can use local variables and global variables.
+
+Creating local variable:
+ZMIENNA=wartosc
+
+without (") or (') when we assins only one word
+
+we can use quote (") - especially if we want to assign  more words.
+		       It's important that with quotes variables are translated into values and special signs are interpreted.
+		       example: ZMIENNA="Moja kanapa ma $nogi nogi" => "Moja kanapa ma 4 nogi"
+
+we can use apostrophe (') - especially if we want to assign string of characters.
+			Variabls aren't translated and special signs aren't interprated
+			example: ZMIENNA='Moja kanapa ma $nogi nogi' => "Moja kanapa ma $nogi nogi"
+
+Creating global variables:
+export ZMIENNA=wartosc
+
+To read variable we use: 
+$ZMIENNA 
+${ZMIENNA} - this one is useful when variable has digits in her name and when we are working with an array.
+________________________________________________________________________________________________________________________________________________
+| ZADANIE2																	|	
+|																		|
+|	echo $X                     #wypisze znów słówko "tekst"										|
+|																		|
+|	X="Tekst 1"                 #prawidłowe przypisanie do zmiennej dwóch słów oddzielonych spacją						|
+|	Y="tekst:$X"                #przypisanie do zmiennej "Y" słowa i wywołania zmiennej"X" 							|
+|	echo "$Y"                   # w efekcie wypisanie otrzymamy :  ---"tekst:Tekst 1"---							|
+|	Y='tekst:$X'                #do "Y" przypicujemy tekst za pomocą apostrofów (')								|
+|	echo "$Y"                   # w efekcie wypisania otrzymamy :  ---"tekst:$X"---								|
+|	Y=tekst:$X                  # przypisanie bez " i ' także bez spacji ale ze zmienną							|
+|	echo "$Y"                   # w efekcie wypisania otrzymamy :  ---"tekst: Tekst 1"---							|
+|																		|
+|	# WNIOSKI (") używamy zawsze gdy wystepuje spacja , (') gdy chcemy wypisać treść która jest normalnie wywołaniem zmiennej ,		|
+|	 możemy tez nie używac (") i (') ale wtedy nie moze byc spacji i tak jak w przypadku (") bedzie rozwijanie zmiennych 			|
+|																		|					
+|	A=Ala																	|
+|	echo $A ma kota, a kot ma ${A}ę       #Wypisze sie "Ala ma kota, a kot ma Alaę"								|
+|	echo $A ma kota, a kot ma ${A:0:2}ę   #Wypisze sie "Ala ma kota, a kot ma Alę"								|
+|_______________________________________________________________________________________________________________________________________________|
+	
+There are predefined variables (in exercise below)
+and variables realted to the way of scripts work: 
+
+$*  	all elements as a one value
+$@  	all elements as a separetad values
+$0  	name of a script
+$1, $2	next values of script
+$?	exit code of the last command
+$$	PID of the current shell
+$!	PID of the parent shell
+!#	number of parameters passed to the script
+________________________________________________________________________________________________________________________________________________________
+|																			|
+| ZADANIE 3																		|
+|																			|
+|	echo $PATH             #WYNIK: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"			|
+|                       # jest to "lista ścierzek" które zawieraja katalogi które beda przeszukiwane by znalezc i uruchomic wpisane pożniej polecenie 	|
+|	date                   # zadziała bo znajduje sie w jednym z tych katalogów									|
+|	which date             # sprawdzamy gdzie dokładnie sie znajduje (WYNIK:"/bin/date")								|
+|																			|	
+|	echo $RANDOM           #generator liczb losowych												|
+|	echo $PWD              #WYNIK: "/home/ubuntu/repo/sop2020-21_24c/s22622/zajecia2"								|
+|	echo $PS1              #Zawiera ona sekwencje znaną jako znak zachęty										|
+|	echo $USER             #WYNIK: "ubuntu"- nazwa użytkownika											|
+|	echo $HOSTNAME         #WYNIK: "bss-ubu1804" , jest to wiec zmienna systemowa przechowująca nazwe hosta						|
+|	echo $OSTYPE           #WYNIK: "linux-gnu" , zmienna przechowujaca informacje jaki to jest system 						|
+|_______________________________________________________________________________________________________________________________________________________|			
+
+We can assign standard output to the variable.
+First way:
+ZM=$(ls -la) - longer , but always works
+Second way:
+ZM='ls -la' - shorter, but sometimes doesn't work
+ _______________________________________________________________________________________________________________________________
+|																|
+| ZADANIE 4															|
+|	ls -l															|
+|																|	
+|	X=$(ls -l)														|
+|	echo "$X"   #wypisze identycznie											|
+|																|
+|       	 "total 16													|
+|        	-rwxrwxr-x 1 ubuntu ubuntu   39 Apr 19 20:34 cw1.sh								|		
+|        	-rwxrwxr-x 1 ubuntu ubuntu 1521 Apr 19 21:35 cw2.sh								|
+|        	-rwxrwxr-x 1 ubuntu ubuntu  881 Apr 20 11:36 cw3.sh								|
+|        	-rwxrwxr-x 1 ubuntu ubuntu   37 Apr 20 11:53 cw4.sh"								|
+|																|
+|																|
+|	#echo $X    #wypisałoby jedno za drugim											|
+|																|
+|        	"total 16 -rwxrwxr-x 1 ubuntu ubuntu 39 Apr 19 20:34 cw1.sh -rwxrwxr-x 1 ubuntu ubuntu 1521 Apr 19 21:35 cw2.sh	|
+|	 	-rwxrwxr-x 1 ubuntu ubuntu 881 Apr 20 11:36 cw3.sh -rwxrwxr-x 1 ubuntu ubuntu 37 Apr 20 11:53 cw4.sh"		|
+|_______________________________________________________________________________________________________________________________|
+
+We can make some arithmetic operations:
+echo $((2+2))
+X=5
+echo $((2*X))
+
+And some operations on strings
+
+${#TEKST} 	-> length
+${{TEKST:p} 	-> new string starting from element number "p" 
+${STRING:p:1}	-> new string starting from element number "p" and has "1" element
+${STRING/w/z}	-> changes --w-- for --z--
+________________________________________________________________________________________________________________________
+|															|
+| ZADANIE 5														|
+|															|
+|	#A=Ala														|
+|	#echo $A ma kota, kot ma ${A}ę, tak było w poprzednim zadaniu							|
+|	#echo $A ma kota, kot ma ${A:0:2}ę  #a tu mamy poprawe rozwiązanie z użyciem operacji na ciagach znaków		|
+|															|
+|															|
+|	#Własciwa cześć tego zadania:											|
+|	echo Podaj imie													|
+|	read B														|
+|	echo Podaj zdanie ze słowem "SOP"										|
+|	read Z														|
+|															|
+|	echo ${B:0:1}    #wypisanie pierwszego znaku argumentu								|
+|															|
+|	C=$((${#B}-1))   #tu ustalam długość "tablicy" znaków								|
+|	D=${B:$C:1}      #ostatni znak argumentu									|
+|	echo $D          #wypisanie ostatniego znaku argumentu								|
+|															|
+|															|
+|	if [[ "$D" != "a" ]]; then											|
+|       	echo $B ma kota, kot ma ${B}a										|
+|	else														|
+|       	 	echo $B ma kota, kot ma ${B:0:$C}ę								|
+|	fi														|
+|															|
+|	#zamieni w argumencie tekst SOP na tekst \\e[32mSOP\\e[0m, co sprawi ze "SOP"wyświetli sie na zielono		|
+|	echo -e ${Z/SOP/\\e[32mSOP\\e[0m}										|
+|_______________________________________________________________________________________________________________________|
+
+
+Regular expressions
+
+We can use program sed to processing string which reaches the standard input and leaves sed as a different string through standard output.
+Basic elements are:
+\[...\]  -> in  ... list of characters which can appear in this place
+()	 -> set of options
+^	 -> the begining of string
+$	 -> end of string
+^	 -> negation
+*	 -> pattern needs to repeat 
++	 -> pattern needs to repeat at least once
+.	 -> any character
+...-...  -> ange of characters
+\	 -> escape character
+________________________________________________________________________________
+| ZADANIE 6									|
+|										|
+|	A=Ala									|
+|	echo $A ma kota, kot ma $A | sed s/a$/ę/g | sed 's/\([^ę]\)$/\1a/g' 	|
+|_______________________________________________________________________________|
+
+
+Zadanie domowe w plikach zadDomowe.sh i zadDomoweTekst.txt
+
