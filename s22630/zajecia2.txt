@@ -1,0 +1,26 @@
+Notatka
+
+Cudzyslowia "" uzywa sie do interpolacji ciagu znakow, pozwala to na korzystanie z zmiennych.
+Apostrof '' sluzy do pisania ciagu znakow, nie obsluguje interpolacji.
+
+Zmienne w skryptach pisze sie w nastepujacy sposob:
+JEDEN=1
+Za pomoca slowa kluczowego 'export' zmienna staje sie widoczna dla innych instancji powloki.
+Domyslnie zmienna jest zmienna lokalna.
+Wazne rzecz - nie mozna wstawiac spacji obok znaku przypisania.
+
+Znakiem dolara $ odwolujemy sie do zmiennych np. "${JEDEN} 2 3"
+
+Zmienne specjalne:
+
+$0  	nazwa skryptu
+$1, $2	kolejne parametry skryptu
+$@  	wszystkie parametry skryptu jako osobne wartosci
+$?	kod zakonczenia ostatniego polecenia
+$$	PID obecnej powloki
+$*  	wszystkie parametry skryptu jako jedna wartosc
+!#	liczba parametrow przekazanych do skryptu
+
+Zad. 6
+
+echo Mam na imie Tomasz. | sed ''s/Tomasz/`printf "\033[31mTomasz\033[0m"`/g''
