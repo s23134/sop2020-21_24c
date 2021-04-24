@@ -6,7 +6,7 @@ We analized avalible configuration options and personalized our selections.
 Process description below.
 
 1. Download system installation image from debian.org
-	I chose "small image file" for 64-bites PC "amd64"
+	I chose "small image file" for 64-bit PC "amd64"
 	
 2. In VirtualBox manager we create new virtual machine.
 	I chose "Maszyna" -> "Nowa"
@@ -22,15 +22,15 @@ Process description below.
 	-VMDK (Virtual Machine Disc)- for VMware
    e) "memory on a physical hard disk"- chose dynamic
 	Options:
-	- Dynamic allocation - memory size is enlarged dynamically (maximum is your declaration of this size) 
-	- Fixed size- size is constant, it makes system faster
+	- Dynamic allocation - initially it will be small and will grow to maximum size during creation of the disc itself
+	- Fixed size- maximum size right from the start, file with for example VirtualDriveImage will be prelocated and zeroed from the start.
    f) "file location and size"- i changed the size to 16GB
    
 
 3. Settings (right mouse button on debian icon)
 
    a) system/motherboard
-	- unchecked "floppy" and "optical drive" (we can use them later by checking one-time use)
+	- unchecked "floppy" and "optical drive" (only for initial boot sequence. This does not remove them from VM)
    b) system/processor   
 	- I didn't change anything
    c) memory 
