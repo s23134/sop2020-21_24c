@@ -1,0 +1,18 @@
+Skrypty
+
+Zmienne:
+x="tekst"
+piec=5;
+
+echo "${$x}  ${piec}"
+
+Zmienne ktore juz sa: // (jest ich wiecej)
+$0      -> nazwa skryptu
+$1, $2  -> podane parametry skryptu
+$@      -> mozna uzyc do petli, zeby iterowac po parametrach
+$$      -> PID
+!#      -> liczba paramterow przekazanych do skryptu
+
+Domowe:
+
+cat $1 | sed ''s/Mateusz/`printf "\033[31mMateusz\033[0m"`/g''
