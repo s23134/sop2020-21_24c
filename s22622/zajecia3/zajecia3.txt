@@ -1,0 +1,138 @@
+11.03.2021  Skrypty w Bashu - część2
+
+Podstawowa wersja wyrażenia warunkowego (if) wyglada następująco:
+
+if warunek
+then
+ ....
+elif warunek
+then
+ ...
+else
+ ...
+fi
+
+Istnieje też wersja skrócona z której wolę korzystać
+
+if warunek; then
+ ....
+fi
+
+Zadanie 1.
+Napisz skrypt, który sprawdzi, czy podano więcej niż jeden parametr. Jeśli tak, to niech wyświetli pierwszy parametr. Jeśli nie, to niech wyświetli komunikat, że nie podano parametrów.
+________________________________________________	
+#!/bin/bash 					|
+if [ $# -gt 1 ]; then				|
+        echo $1;				|
+else						|
+        echo "Podano mniej niz 1 parametr";	|
+fi						|
+________________________________________________|
+
+Ważne do zapamiętania :
+* warunki zapisujemy w nawiasach kwadratowych
+* gdy wyrażenie w nawiasie na postać arytmetyczną używamy nawiasów podwójnych np
+	if [[ "abc" != "$1" ]]; then
+* -gt (greather then)
+* -ge (greather equal)
+* -lt (lower then)
+* -le (lower equal)
+* -eq (equal)
+* $1 pierwszy argument 
+* $2 drugi argument itd
+* $@ wszystkie argumenty z terminala(jako odzielne wartości)
+* $# ilość argumentów przekazanych do skryptu
+
+Zadanie 2.
+Napisz skrypt, który sprawdzi, czy istnieje plik config.cfg w bieżącym katalogu. Jeśli taki plik istnieje, to niech go wykona. Jeśli nie istnieje, to niech sprawdzi, czy podano argument i wykona plik o nazwie takiej jak wartość argumentu (parametru) skryptu. Jeśli żadne z powyższych nie nastąpiło, to niech wyświetli komunikat o błędzie.
+________________________________
+#!/bin/bash			|
+				|
+if [ -e config.cfg ]; then	|
+        ./config.cfg		|
+elif [ $# -gt 0 ]; then		|
+        ./$1			|
+else				|
+        echo "Błąd"		|
+fi				|
+________________________________|
+* -e exists
+* ./$1 wywołanie pliku którego nazwa to pierwszy przekazany argument
+
+Zadanie 3.
+Napisz skrypt, który sprawdzi, czy jego nazwa kończy się .sh. Jeśli nie, to niech zmieni swoją nazwę poprzez dopisanie tego rozszerzenia (rozszerzenie nazwy pliku). Sprawdzenie można zrobić na kilka sposobów, polecam przetestować 2 typowe:
+dopasowanie do wyrażenia regularnego (to jest bardziej uniwersalny sposób)
+porównanie ostatnich 3 liter nazwy skryptu
+________________________________________________________
+#!/bin/bash						|
+							|
+FILENAME=$(basename $0)					|
+NAME="${FILENAME%.*}"					|
+EXT="${FILENAME##*.}"					|
+							|
+if [[ $EXT != "sh" ]]; then				|
+        mv ${0} ${0}.sh					|
+fi							|
+   							|
+________________________________________________________|
+
+* $0 przechowuje nazwę pliku w którym się znajduje skrypt
+* Przy pomocy RegExp przypisujemy zmiennym wartości przed i po "."
+
+Zadanie 4.
+Napisz skrypt, który sprawdzi, czy w bieżącym katalogu jest więcej niż 5 plików. Jeśli tak, to wypisze odpowiedni komunikat z informacją że tak jest. Podpowiem:
+ls - wyświetla listę plików
+wc - word count - zlicza znaki, słowa i linie
+________________________________________________________
+#!/bin/bash                                             |
+                                                        |
+if [ $(ls -l |grep -e "^-" |wc -l ) -gt 5 ; then        |
+        echo "Jest wiecej niz 5 plików w katalogu"      |
+fi                                                      |
+________________________________________________________|
+
+*W zadaniu wykorzystujemy fakt że pierwszym znakiem przy wypisaniu (ls -l) jest w przypadku plików "-"
+* wc -l  zlicz nam więc liczbę plików w tej lokalizacji (-l  liczy linijki)
+        "wc" (word counter) posiada tez inne opcje
+        -m zlicza znaki
+        -c bajty
+        -w słowa
+Oczywiście pełen opis dostępny w "man"
+
+PĘTLE 
+
+Bash udostępnia pętle. Najpopularniejsze z nich to FOR i WHILE
+
+PĘTLA FOR
+
+for i in a b c 1 2 3; do
+echo $i
+done
+
+Dostępna jest też wersja znana z wielu popularnych języków programowania:
+
+for ((i = 1; i < 10; i++)); do echo $i; done
+
+Pętla for dostępna jest też w poniższej formie:
+
+for i in {1..10}; do echo $i; done	- taka pętla wypisze liczby od 1 do 10
+for i in {1..10..2}; do echo $i; done   - taka pętla wypisze liczbu od 1 do 10 co 2
+
+
+PĘTLA WHILE
+
+
+while [ true ]; do
+  echo "to się nigdy nie skończy..."
+  sleep 1
+done
+
+TABLICE
+
+W bashu dostępne są też tablice
+
+TABLICA=(element1 "element 2" element\ 3)	- deklaracja tablicy z elementami
+echo ${TABLICA[1]}				- dostęp do pierwszego elementu tablicy
+echo ${TABLICA[*]}				- wszystkie elementy tablicy jako jedna wartość
+echo ${TABLICA[@]}				- wszystkie elementy tablicy jako oddzielne wartości
+echo ${#TABLICA[@]}				- liczba elementów w tablicy
