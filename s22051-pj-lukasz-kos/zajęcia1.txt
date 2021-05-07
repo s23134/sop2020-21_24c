@@ -1,0 +1,151 @@
+07.03.2021
+
+
+	
+Kiedy wybierasz programy to odznacz Debian desktop env... oraz print server, a zaznacz SSH server
+
+Alt+F1 (F2, F3) to dodatkowe terminale (pulpity). Można to wykorzystać to tego by w dodatkowym oknie ustawić roota.
+whoami wyświetla ci jak się zalogowałeś. 
+
+apt-get update : instaluje update'y
+tasksel : do zarządzania programami
+apt-get install aptitude : instalator pakietów
+
+apt install <program> : to samo co wyżej
+apt search <program> : szukajka programów
+aptitude search <nazwa> : wyszukiwarka programów
+
+I. Utworzenie nowej maszyny wirtualnej w VirtualBoxie
+	1. Nazwa wirtualki i wybór systemu.
+	2. Ilość pamięci (podzielna przez 2)
+	3. Typ pliku z wirtualnym dyskiem:
+		a. VDI (VirtualBox Disk Image) - domyślny format
+		b. VHD (Virtual Hard Disk) - obraz dysku twardego Microsoft
+		c. VMDK (Virtual Machine Disk) - format VMware
+	4. Pamięć na fizycznym dysku twardym (stały rozmiar zwiększa wydajność, wymagane przy niektórych systemach).
+	5. Lokalizacja pliku i rozmiar (8-16GB)
+	
+II. Konfiguracja maszyny wirtualnej (najważniejsze opcje)
+	1. System => Płyta główna => Kolejność bootowania
+		Określa, które napędy będą dostępne i w jakiej kolejności będą bootowalne. Ponadto konfiguruje peryferia i ilość RAM.
+	2. System => Procesor. 
+		Ustawiasz ilość rdzeni, wykorzystanie procesora i rozszerzenie PAE (Physical Address Extension, umożliwia procesorom 32-bitowym korzystanie z więcej niż 4 GB pamięci RAM)
+	3. Ekran => Ekran.
+		Ustalasz pamięć wideo, ilość monitorów, kontroler graficzny i przyśpieszenie. 
+		W kolejnych kartach ustalasz zdalny pulpit i nagrywanie pulpitu.
+	4. Pamięć. 
+		Tutaj konfigurujesz dodatkowe dyski twarde i optyczne w zależności od rodzaju kontrolera. 
+		Podłączasz obrazy dysków twardych i optycznych. 
+		W przypadku kontrolerów IDE określasz kolejność. 
+	5. Dźwięk. 
+		Konfiguracja dźwięku lub jego całkowite wyłączenie.
+	6. Sieć. 
+		Konfiguracja kart sieciowych. Poniżej poszczególne rodzaje kart sieciowych:
+			a. NAT (Network Address Translation) - najprostszy i domyślny rodzaj połączenia, imituje połączenie do Internetu poprzez router. 
+			Minusem jest fakt, że taka wirtualka nie jest widoczna od strony Internetu czy sieci wewnętrznej hosta, nie można się zdalnie połączyć z taką maszyną ani postawić serwera. 
+			
+			b. Mostkowana karta sieciowa (bridged) - przekierowuje kartę wirtualki do karty sieciowej hosta. W ten sposób mamy dostęp do sieci wewnętrznej hosta i w tejże sieci maszyna wirtualna widnieje jako osobny komputer. W ten sposób może komunikować się ze sobą kilka maszyn wirtualnych.
+			
+			c. Sieć wewnętrzna - tworzy dodatkową sieć wewnętrzną, która jest ukryta przed hostem i wymiana danych między wirtualnymi maszynami jest prywatna (ukryta). Zapobiega to przechwytywaniu informacji w sytuacji, gdyby host korzystał ze sniffera. 
+			
+			d. Karta sieci izolowanej (host-only) - do komunikacji między hostem, a wirtualną maszyną. 
+			Przydatne np. do stworzenia serweru, gdzie na host jest web server, a na maszynie wirtualnej jest baza danych. Host i maszyna komunikują się ze sobą w sieci izolowanej natomiast tylko host ma połączenie z Internetem (nie można dostać się z zewnątrz do bazy danych).
+			
+			e. Sieć NAT - podobne do NAT, ale umożliwa utworzenie wirtualnej sieci do komunikacji wirtualnych maszyn we wewnętrznej sieci.
+			
+			f. Cloud Network - eksperymentalna sieć w chmurze Oracle.
+			
+			g. Niepodłączona - niepodłączona karta sieciowa. 
+	7. Porty szeregowe.
+		Konfiguracja portów szeregowych. 
+	8. USB.
+		Konfiguracja portów USB.
+	9. Udostępniane foldery
+		Ustalenie współdzielonych folderów widocznych w sieci hosta.
+
+III. Start maszyny. 
+	1. Zwykły start - wiadomo.
+	2. Bezgłowy start - uruchomienie systemu bez trybu graficznego, przydatne do stawiania serwerów
+	3. Oddzielny start - kombinacja powyższych dwóch, domyślnie maszyna jest uruchamiana w trybie zwykłym, ale po zamknięciu okna przechodzi w tryb bezgłowy.
+	
+IV. Podczas uruchamiania maszyny wirtualnej F12 pokazuje menu wyboru urządzeń bootowalnych.
+	a. Wybieramy dysk optyczny, by móc zainstalować system.
+
+V. Instalacja Debiana.
+	1. Wybieramy Install (instalowanie w wierszu poleceń)
+	2. Wybieramy język.
+	3. Wybieramy lokację.
+	4. Wybieramy format dat i kodowanie znaków (locales, encoding, itp.).
+	5. Wybieramy klawiaturę.
+	6. Podajemy nazwę komputera.
+	7. Podajemy nazwę sieci.
+	8. Podajemy hasło roota.
+	9. Podajemy prawdziwe imie i nazwisko (wykorzystywane, np. do tworzenia adresów mailowych).
+	10. Podajemy login.
+	11. Podajemy hasło użytkownika.
+	12. Partycjonowanie dysku.
+		a. Guided - use entire disk 
+			Kreator do partycjonowania całego dysku.
+			aa. Wybierz dysk.
+			ab. Użyj odpowiedniego schematu 
+				(jedna partycja vs. 
+				osobna partycja dla /home vs. 
+				osobna partycja dla /home, /var i /tmp)
+		b. Guided - use entire disk and set up LVM
+			Kreator do partycjonowania całego dysku partycjami wykorzystującymi Logical Volume Manager. Pozwala to na elastyczne łączenie dysków fizycznych w jeden dysk wirtualny oraz zmianę wielkości partycji podczas korzystania z niej.
+		c. Guided - use entire disk and set up encrupted LVM
+			To samo co wyżej, ale z wykorzystaniem szyfrowania danych.
+		d. Manual
+			Ręczne podzielenie dysku.
+			
+VI. Ręczne partycjonowanie dysku
+	1. Po usunięciu tablicy partycji (klikamy nazwę dysku) klikamy na wolną przestrzeń dyskową.
+	2. Tworzymy nową partycję.
+	3. Wpisujemy rozmiar.
+	4. Wybieramy typ partycji (główna lub logiczna).
+	
+Tutaj małą dygresja. 
+Partycje dzielimy na główne i logiczne. Głównych partycji może być 4. Jednakże czwarta partycja może być partycją rozszerzoną, wówczas jest ona niewidoczna, ale zawiera w sobie dowolną ilość partycji logicznych, które są widoczne i można z nich korzystać. To jest też powód, dla którego numeracja partycji logicznych zaczyna się od numeru 5.
+
+	5. Tworzy partycję na początku lub na końcu wolnej przestrzeni.
+	6. Następnie przechodzimy do konfiguracji partycji.
+		a. Systemy plików (w tym SWAP).
+		b. Czy formatować partycję?
+		c. Punkt zamontowania (foldery linuxowe).
+		d. Opcje zamontowania.
+		e. Etykieta dysku.
+		f. Reserved blocks (część partycji zarezerwowana dla działania rootowych daemonów, zostawić domyślne).
+		g. Zastosowanie partycji (ustawia i-węzeł w zależności od wielkości plików).
+		h. Bootable flag (czy partycja ma być uruchamiana jako pierwsza podczas uruchomienia komputera).
+	7. Gdy już wszystkie partycje zostały skonfigurowane, możemy je stworzyć.
+	
+VII. Instalacja 
+	1. Najpierw zostaniemy zapytani o instnienie dodatkowych napędów optycznych.
+	2. Potem wybieramy serwer, z którego zostaną pobrane pakiety.
+	3. Potem zostaniemy poproszeni o zgodę na wysyłanie statystyk dotyczących używanych pakietów.
+	4. Następnie zostaniemy zapytani o dodatkowe elementy systemu, które można zainstalować (na potrzeby ćwiczeń instalujemy jedynie podstawowe narzędzia systemowe i serwer SSH).
+	5. Potem zostaniemy zapytani o możliwość instalacji boot loadera na początku dysku (GRUB). Klikamy tak.
+
+VIII. Uruchamianie systemu Debian. 
+	1. Skrót Alt+F* pozwala na przełączanie się między terminalami (do 6). Najczęściej w drugim oknie logujemy się jako root.
+	
+	2. Polecenie tasksel uruchamia managera tasków, który instaluje szereg powiązanych ze sobą pakietów zgrupowanych w konketnym celu. 
+	
+	3. apt-get to polecenie do zarządzania i instalacji pakietów.
+		apt-get update - ściąga nową listę pakietów
+		apt-get install <nazwa_pakietu> - ściąga dany pakiet
+		
+	4. Inna forma zarządzania pakietami to apt 
+		apt install <nazwa_pakietu> - instaluje pakiet
+		apt search <nazwa_pakietu> - szuka dany pakiet w systemie
+		
+	4. aptitude to kolejny program do zarządzania pakietami.
+		aptitude search <nazwa_pakietu> - krótsza i czytelniejsza lista znalezionych plików i pakietów
+		
+		W samym interfejsie graficznym (wywoływanym po prostu poleceniem aptitude):
+		/ - szukajka
+		q - wyjście z obecnego okna
+		u - update pakietu (dodanie do kolejki)
+		+ - (z Shiftem) instalacja pakietu (dodanie do kolejki) 
+		- - wyrzucenie z kolejki rozkazów
+		g - wykonanie kolejki rozkazów
