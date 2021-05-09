@@ -136,3 +136,123 @@ echo ${TABLICA[1]}				- dostęp do pierwszego elementu tablicy
 echo ${TABLICA[*]}				- wszystkie elementy tablicy jako jedna wartość
 echo ${TABLICA[@]}				- wszystkie elementy tablicy jako oddzielne wartości
 echo ${#TABLICA[@]}				- liczba elementów w tablicy
+
+Zadanie 5.
+Napisz skrypt, który będzie wypisywał liczby od 10 do 1 co 2
+________________________________________
+#!/bin/bash				|
+					|
+					|
+for i in {10..1..2};do echo $i;done	|
+________________________________________|
+
+Zadanie 6.
+Napisz skrypt, który będzie wypisywał wszystkie argumenty wywołania skryptu (pamiętaj o tym, że argument może w sobie zawierać jakieś spacje) napisane w cudzysłowach.
+________________________
+#!/bin/bash		|
+			|
+for a in "$@"; do	|
+        echo \"$a\"	|
+done			|
+________________________|
+
+Zadanie 7.
+Napisz skrypt, który wypisze listę plików i katalogów bieżącego katalogu poprzedzając każdą nazwę pliku tekstem "Patrzcie Państwo, oto plik: ". Podpowiedź internal field separator
+________________________________________________
+#!/bin/bash					|
+						|
+files=$(ls -1)					|
+IFS=$'\n'					|
+for f in $files; do				|
+        echo "Proszę państwa oto plik: $f"	|
+done						|
+________________________________________________|
+
+IFS pozwala na zadeklarowanie znaku kończącego zapis do danego argumentu.
+"\n" oznacza ze nowy argment zaczyna się od nowej linii
+
+Zadanie 8.
+Napisz skrypt, który dla każdego pliku w bieżącym katalogu, który ma rozszerzenie .c wykona taką komendę:
+cc (tunazwapliku) -o (tunazwaplikubezrozszerzenia)
+Oczywiście zamień (tunazwapliku) na nazwę pliku, a (tunazwaplikubezrozszerzenia) na nazwę pliku z obciętym rozszerzeniem.
+________________________________________
+#!/bin/bash				|
+					|
+files=$(ls -1)				|
+					|
+for f in $files; do			|
+        NAME="${f%.*}"			|
+        EXT="${f##*.}"			|
+					|
+        if [[ ${EXT} == "c" ]]; then	|
+                cc $f -o $NAME		|
+        fi				|
+					|
+done					|
+________________________________________|     
+
+Zadanie 9.
+Napisz skrypt, który wczyta listę plików do wypisania z wiersza poleceń, a następnie wypisze ich zawartości raz w kolejności od początku do końca, a raz na odwrót. Podpowiedzi:
+indeksy ujemne tablicy mogą się przydać
+można wyliczać wartości wyrażeń arytmetycznych (i+1)
+przyda się for.
+________________________________
+#!/bin/bash			|
+				|
+for a in "$@"; do		|
+        cat "${a}"		|
+        tac "${a}" | rev	|
+done				|
+________________________________|
+
+FUNKCJE 
+Bash obsługuje równiez funkcje.
+Deklaracja funkcji wygląda następująco:
+________________________________________________________
+function witaj {					|
+  echo "Funkcja ta jest nieuprzejma i nie wita $1"	|
+  # tu opcjonalnie: return 0				|
+}							|
+________________________________________________________|
+
+Aby zaimportowac plik z funckcjami mozna użyc 
+. ./pilk
+lub
+source plik
+
+Zadanie 10.
+Przygotuj skrypt z funkcją która będzie wypisywała tekst pokolorowany na zadany kolor. Niech funkcja ta przyjmuje dwa argumenty - tekst i kolor. Zobacz man console_codes oraz składnię komendy echo (lub przykład z poprzednich zajęć).
+________________________________
+#!/bin/bash			|
+				|
+kolorowanie() {			|
+        tekst=$1		|
+        kolor=$2		|
+echo -e  "\e[$2m$1\\e[0m"	|
+}				|
+________________________________|
+
+W zadaniu założyłam że urzytkownik podawał bedzie odpowiednie kody kolorów:
+	32      set green foreground
+        33      set brown foreground
+        34      set blue foreground
+        35      set magenta foreground
+        36      set cyan foreground
+        37      set white foreground
+
+Zadanie 11.
+Przygotuj funkcję obliczającą rekurencyjnie ciąg Fibonacciego. Niech wynik zwraca za pomocą return. Czy są jakieś ograniczenia?
+_________________________________________________________________	
+!/bin/bash							|
+								|
+fibonacci () {i							|
+								|
+case $1 in							|
+       0|1) echo $1 ;;						|
+       *) echo $((`fibonacci $[$1-1]` + `fibonacci $[$1-2]`)) ;;|
+esac								|
+}								|
+________________________________________________________________|
+Wersja bez uzycia return
+
+Zadanie domowe w osobnym pliku zadDomowe.sh
