@@ -1,20 +1,5 @@
 07.03.2021
 
-
-	
-Kiedy wybierasz programy to odznacz Debian desktop env... oraz print server, a zaznacz SSH server
-
-Alt+F1 (F2, F3) to dodatkowe terminale (pulpity). Można to wykorzystać to tego by w dodatkowym oknie ustawić roota.
-whoami wyświetla ci jak się zalogowałeś. 
-
-apt-get update : instaluje update'y
-tasksel : do zarządzania programami
-apt-get install aptitude : instalator pakietów
-
-apt install <program> : to samo co wyżej
-apt search <program> : szukajka programów
-aptitude search <nazwa> : wyszukiwarka programów
-
 I. Utworzenie nowej maszyny wirtualnej w VirtualBoxie
 	1. Nazwa wirtualki i wybór systemu.
 	2. Ilość pamięci (podzielna przez 2)
