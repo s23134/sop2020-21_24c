@@ -19,6 +19,7 @@ echo "treść komunikatu"
 
 # Można zmieniać kolory treści komunikatów poprzez 
 echo -e "\e[33mZnakLubTreść"
+# gdzie 33 to numer koloru według ASCII escape code.
 
 # Jeśli stosujesz to w skrypcie to pamiętaj o tym, by na końcu zresetować kolor czcionki, by kolejny program nie użył tych ustawień
 echo -e "\e[0m"
@@ -54,6 +55,3 @@ ZM=`ls -l` # to jest backtick
 echo $ZM
 # sprawi, że output będzie niesformatowany. Aby output wyglądał tak samo należy wpisać
 echo "$ZM"
-
-# Ćwiczenie 5
-# 
