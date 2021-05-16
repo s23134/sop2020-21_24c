@@ -1,0 +1,57 @@
+# Pierwsze kroki są najgorsze :)
+# Po pierwsze, należy upewnić się czy wszystko działa i czy bash znajduje się standardowo w folderze /bin/
+$ which bash
+
+# (W terminalu znak $ oznacza zwykłego użytkownika, # oznacza administratora. W skrypcie # oznacza linijkę komentarza.)
+
+# Po drugie, jeśli mamy już stworzony skrypt (plik) należy nadać uprawnienia do wykonywania pliku dla użytkownika, np. 
+$ chmod u+x nazwa_pliku.sh
+
+# Po trzecie, skrypt uruchamia się bezpośrenio odwołujac się do niego ścieżką względną (relatywną), np.
+$ ./nazwa_pliku.sh
+
+# Po czwarte, zawartość skryptu zaczyna się od linijki
+#! /bin/bash
+# ze spacją lub bez po wykrzykniku
+
+# Do wyświetlania komunikatów na ekranie służy polecenie 
+echo "treść komunikatu"
+
+# Można zmieniać kolory treści komunikatów poprzez 
+echo -e "\e[33mZnakLubTreść"
+# gdzie 33 to numer koloru według ASCII escape code.
+
+# Jeśli stosujesz to w skrypcie to pamiętaj o tym, by na końcu zresetować kolor czcionki, by kolejny program nie użył tych ustawień
+echo -e "\e[0m"
+
+# Ćwiczenie 2
+# Treść zawarta w cudzysłowiu jest interpretowana, np. zamiast nazwy zmiennej wyświetlana jest jej wartość.
+# Treść w apostrofach jest wyświetlana w całości, bez interpretacji. 
+
+# Polecenie bash uruchamia kolejną powłokę basha, która nie dziedziczy zmiennych. Żeby zmienne mogły być dziedziczone należy je z osobna wyeksportować, np.
+export X
+# Temu samemu służy polecenie do uruchamiania skryptu 
+./nazwa_pliku.sh 
+# ./ uruchamia kolejną podpowłokę bash, w której wykonuje się skrypt. Powłoka ulega zamknięciu po skończeniu wykonywania skryptu. 
+# Żeby móc wykonać skrypt w tej samej powłoce należy uruchomić go tak: 
+. nazwa_pliku.sh
+# jednak NIE NALEŻY TAK ROBIĆ, ponieważ w skrypcie mogą znajdować się zmienne, które mogą nadpisać zmienne systemowe.
+
+# Ćwiczenie 3
+# PATH - zmienna zawierająca ścieżki do folderów zawierających programy, to one będą przeszukiwane, gdy zostanie wpisane polecenie w terminalu
+# RANDOM - generator liczb pseudolosowych (2^15)
+# PWD - obecna ścieżka do folderu, w którym jesteś
+# PS1 - kolorowanie czcionki w terminalu
+# USER - nazwa użytkownika
+# HOSTNAME - nazwa domeny
+# OSTYPE - typ dystrybucji
+
+# Ćwiczenie 4
+# Żeby przypisać pod zmienną wartość jakiejś komendy można to zrobić na dwa sposoby:
+ZM=$(ls -l) 	# ten sposób jest pewniejszy
+ZM=`ls -l` # to jest backtick
+
+# Zwykłe wpisanie
+echo $ZM
+# sprawi, że output będzie niesformatowany. Aby output wyglądał tak samo należy wpisać
+echo "$ZM"
