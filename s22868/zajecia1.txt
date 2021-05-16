@@ -1,0 +1,18 @@
+Po wybraniu bootowania
+1. Install (poruszanie sie po menu - tab, strzalki, enter)
+2. Wybranie jezyka, lokalizacji, ukladu klawiatury itp.
+3. Podajemy hostname 
+4. Domain zostawiamy
+5. Podajemy haslo do roota
+6. Tworzymy uzytkownika, login, haslo
+7. Dzielimy dysk na partycje ( manual )
+8. Create new partition (około 8gb na główną)
+9. Rozmiar partycji, primary, beginngin
+10. Kolejna partycja wybieramy use as swap area
+11. Finish partitioning
+12. yes > no 
+13. Wybór serwera do pobierania > najblizszy najlepszy
+14. proxy(pomijam) > no
+15. Wybór oprogramowania do zainstalowania (spacja) > continue
+16. Czekamy az sie zainstaluje
+17. Koniec
