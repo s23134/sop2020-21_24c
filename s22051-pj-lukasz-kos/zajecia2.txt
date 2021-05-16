@@ -41,10 +41,10 @@ export X
 # PATH - zmienna zawierająca ścieżki do folderów zawierających programy, to one będą przeszukiwane, gdy zostanie wpisane polecenie w terminalu
 # RANDOM - generator liczb pseudolosowych (2^15)
 # PWD - obecna ścieżka do folderu, w którym jesteś
-# PS1 - kolorowanie czcionki w terminalu
+# PS1 - Prompt String One, komunikat wyświetlany na początku linii w terminalu
 # USER - nazwa użytkownika
-# HOSTNAME - nazwa domeny
-# OSTYPE - typ dystrybucji
+# HOSTNAME - nazwa hosta (komputera)
+# OSTYPE - typ systemu
 
 # Ćwiczenie 4
 # Żeby przypisać pod zmienną wartość jakiejś komendy można to zrobić na dwa sposoby:
