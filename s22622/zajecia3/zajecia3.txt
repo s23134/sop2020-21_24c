@@ -1,0 +1,258 @@
+11.03.2021  Skrypty w Bashu - część2
+
+Podstawowa wersja wyrażenia warunkowego (if) wyglada następująco:
+
+if warunek
+then
+ ....
+elif warunek
+then
+ ...
+else
+ ...
+fi
+
+Istnieje też wersja skrócona z której wolę korzystać
+
+if warunek; then
+ ....
+fi
+
+Zadanie 1.
+Napisz skrypt, który sprawdzi, czy podano więcej niż jeden parametr. Jeśli tak, to niech wyświetli pierwszy parametr. Jeśli nie, to niech wyświetli komunikat, że nie podano parametrów.
+________________________________________________	
+#!/bin/bash 					|
+if [ $# -gt 1 ]; then				|
+        echo $1;				|
+else						|
+        echo "Podano mniej niz 1 parametr";	|
+fi						|
+________________________________________________|
+
+Ważne do zapamiętania :
+* warunki zapisujemy w nawiasach kwadratowych
+* gdy wyrażenie w nawiasie na postać arytmetyczną używamy nawiasów podwójnych np
+	if [[ "abc" != "$1" ]]; then
+* -gt (greather then)
+* -ge (greather equal)
+* -lt (lower then)
+* -le (lower equal)
+* -eq (equal)
+* $1 pierwszy argument 
+* $2 drugi argument itd
+* $@ wszystkie argumenty z terminala(jako odzielne wartości)
+* $# ilość argumentów przekazanych do skryptu
+
+Zadanie 2.
+Napisz skrypt, który sprawdzi, czy istnieje plik config.cfg w bieżącym katalogu. Jeśli taki plik istnieje, to niech go wykona. Jeśli nie istnieje, to niech sprawdzi, czy podano argument i wykona plik o nazwie takiej jak wartość argumentu (parametru) skryptu. Jeśli żadne z powyższych nie nastąpiło, to niech wyświetli komunikat o błędzie.
+________________________________
+#!/bin/bash			|
+				|
+if [ -e config.cfg ]; then	|
+        ./config.cfg		|
+elif [ $# -gt 0 ]; then		|
+        ./$1			|
+else				|
+        echo "Błąd"		|
+fi				|
+________________________________|
+* -e exists
+* ./$1 wywołanie pliku którego nazwa to pierwszy przekazany argument
+
+Zadanie 3.
+Napisz skrypt, który sprawdzi, czy jego nazwa kończy się .sh. Jeśli nie, to niech zmieni swoją nazwę poprzez dopisanie tego rozszerzenia (rozszerzenie nazwy pliku). Sprawdzenie można zrobić na kilka sposobów, polecam przetestować 2 typowe:
+dopasowanie do wyrażenia regularnego (to jest bardziej uniwersalny sposób)
+porównanie ostatnich 3 liter nazwy skryptu
+________________________________________________________
+#!/bin/bash						|
+							|
+FILENAME=$(basename $0)					|
+NAME="${FILENAME%.*}"					|
+EXT="${FILENAME##*.}"					|
+							|
+if [[ $EXT != "sh" ]]; then				|
+        mv ${0} ${0}.sh					|
+fi							|
+   							|
+________________________________________________________|
+
+* $0 przechowuje nazwę pliku w którym się znajduje skrypt
+* Przy pomocy RegExp przypisujemy zmiennym wartości przed i po "."
+
+Zadanie 4.
+Napisz skrypt, który sprawdzi, czy w bieżącym katalogu jest więcej niż 5 plików. Jeśli tak, to wypisze odpowiedni komunikat z informacją że tak jest. Podpowiem:
+ls - wyświetla listę plików
+wc - word count - zlicza znaki, słowa i linie
+________________________________________________________
+#!/bin/bash                                             |
+                                                        |
+if [ $(ls -l |grep -e "^-" |wc -l ) -gt 5 ; then        |
+        echo "Jest wiecej niz 5 plików w katalogu"      |
+fi                                                      |
+________________________________________________________|
+
+*W zadaniu wykorzystujemy fakt że pierwszym znakiem przy wypisaniu (ls -l) jest w przypadku plików "-"
+* wc -l  zlicz nam więc liczbę plików w tej lokalizacji (-l  liczy linijki)
+        "wc" (word counter) posiada tez inne opcje
+        -m zlicza znaki
+        -c bajty
+        -w słowa
+Oczywiście pełen opis dostępny w "man"
+
+PĘTLE 
+
+Bash udostępnia pętle. Najpopularniejsze z nich to FOR i WHILE
+
+PĘTLA FOR
+
+for i in a b c 1 2 3; do
+echo $i
+done
+
+Dostępna jest też wersja znana z wielu popularnych języków programowania:
+
+for ((i = 1; i < 10; i++)); do echo $i; done
+
+Pętla for dostępna jest też w poniższej formie:
+
+for i in {1..10}; do echo $i; done	- taka pętla wypisze liczby od 1 do 10
+for i in {1..10..2}; do echo $i; done   - taka pętla wypisze liczbu od 1 do 10 co 2
+
+
+PĘTLA WHILE
+
+
+while [ true ]; do
+  echo "to się nigdy nie skończy..."
+  sleep 1
+done
+
+TABLICE
+
+W bashu dostępne są też tablice
+
+TABLICA=(element1 "element 2" element\ 3)	- deklaracja tablicy z elementami
+echo ${TABLICA[1]}				- dostęp do pierwszego elementu tablicy
+echo ${TABLICA[*]}				- wszystkie elementy tablicy jako jedna wartość
+echo ${TABLICA[@]}				- wszystkie elementy tablicy jako oddzielne wartości
+echo ${#TABLICA[@]}				- liczba elementów w tablicy
+
+Zadanie 5.
+Napisz skrypt, który będzie wypisywał liczby od 10 do 1 co 2
+________________________________________
+#!/bin/bash				|
+					|
+					|
+for i in {10..1..2};do echo $i;done	|
+________________________________________|
+
+Zadanie 6.
+Napisz skrypt, który będzie wypisywał wszystkie argumenty wywołania skryptu (pamiętaj o tym, że argument może w sobie zawierać jakieś spacje) napisane w cudzysłowach.
+________________________
+#!/bin/bash		|
+			|
+for a in "$@"; do	|
+        echo \"$a\"	|
+done			|
+________________________|
+
+Zadanie 7.
+Napisz skrypt, który wypisze listę plików i katalogów bieżącego katalogu poprzedzając każdą nazwę pliku tekstem "Patrzcie Państwo, oto plik: ". Podpowiedź internal field separator
+________________________________________________
+#!/bin/bash					|
+						|
+files=$(ls -1)					|
+IFS=$'\n'					|
+for f in $files; do				|
+        echo "Proszę państwa oto plik: $f"	|
+done						|
+________________________________________________|
+
+IFS pozwala na zadeklarowanie znaku kończącego zapis do danego argumentu.
+"\n" oznacza ze nowy argment zaczyna się od nowej linii
+
+Zadanie 8.
+Napisz skrypt, który dla każdego pliku w bieżącym katalogu, który ma rozszerzenie .c wykona taką komendę:
+cc (tunazwapliku) -o (tunazwaplikubezrozszerzenia)
+Oczywiście zamień (tunazwapliku) na nazwę pliku, a (tunazwaplikubezrozszerzenia) na nazwę pliku z obciętym rozszerzeniem.
+________________________________________
+#!/bin/bash				|
+					|
+files=$(ls -1)				|
+					|
+for f in $files; do			|
+        NAME="${f%.*}"			|
+        EXT="${f##*.}"			|
+					|
+        if [[ ${EXT} == "c" ]]; then	|
+                cc $f -o $NAME		|
+        fi				|
+					|
+done					|
+________________________________________|     
+
+Zadanie 9.
+Napisz skrypt, który wczyta listę plików do wypisania z wiersza poleceń, a następnie wypisze ich zawartości raz w kolejności od początku do końca, a raz na odwrót. Podpowiedzi:
+indeksy ujemne tablicy mogą się przydać
+można wyliczać wartości wyrażeń arytmetycznych (i+1)
+przyda się for.
+________________________________
+#!/bin/bash			|
+				|
+for a in "$@"; do		|
+        cat "${a}"		|
+        tac "${a}" | rev	|
+done				|
+________________________________|
+
+FUNKCJE 
+Bash obsługuje równiez funkcje.
+Deklaracja funkcji wygląda następująco:
+________________________________________________________
+function witaj {					|
+  echo "Funkcja ta jest nieuprzejma i nie wita $1"	|
+  # tu opcjonalnie: return 0				|
+}							|
+________________________________________________________|
+
+Aby zaimportowac plik z funckcjami mozna użyc 
+. ./pilk
+lub
+source plik
+
+Zadanie 10.
+Przygotuj skrypt z funkcją która będzie wypisywała tekst pokolorowany na zadany kolor. Niech funkcja ta przyjmuje dwa argumenty - tekst i kolor. Zobacz man console_codes oraz składnię komendy echo (lub przykład z poprzednich zajęć).
+________________________________
+#!/bin/bash			|
+				|
+kolorowanie() {			|
+        tekst=$1		|
+        kolor=$2		|
+echo -e  "\e[$2m$1\\e[0m"	|
+}				|
+________________________________|
+
+W zadaniu założyłam że urzytkownik podawał bedzie odpowiednie kody kolorów:
+	32      set green foreground
+        33      set brown foreground
+        34      set blue foreground
+        35      set magenta foreground
+        36      set cyan foreground
+        37      set white foreground
+
+Zadanie 11.
+Przygotuj funkcję obliczającą rekurencyjnie ciąg Fibonacciego. Niech wynik zwraca za pomocą return. Czy są jakieś ograniczenia?
+_________________________________________________________________	
+!/bin/bash							|
+								|
+fibonacci () {i							|
+								|
+case $1 in							|
+       0|1) echo $1 ;;						|
+       *) echo $((`fibonacci $[$1-1]` + `fibonacci $[$1-2]`)) ;;|
+esac								|
+}								|
+________________________________________________________________|
+Wersja bez uzycia return
+
+Zadanie domowe w osobnym pliku zadDomowe.sh
