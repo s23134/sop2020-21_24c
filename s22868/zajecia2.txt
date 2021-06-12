@@ -11,7 +11,7 @@ $0      -> nazwa skryptu
 $1, $2  -> podane parametry skryptu
 $@      -> mozna uzyc do petli, zeby iterowac po parametrach
 $$      -> PID
-!#      -> liczba paramterow przekazanych do skryptu
+$#      -> liczba paramterow przekazanych do skryptu
 
 Domowe:
 
