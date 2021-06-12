@@ -55,3 +55,5 @@ ZM=`ls -l` # to jest backtick
 echo $ZM
 # sprawi, że output będzie niesformatowany. Aby output wyglądał tak samo należy wpisać
 echo "$ZM"
+# Ponadto takie przypisanie do zmiennej powoduje zapisanie BIEŻĄCEGO outputu polecenia. 
+# Czyli, np. jeśli przypiszemy wynik `ls -l` do zmiennej, po czym zmienimy folder, to po wywołaniu tej zmiennej wyświetli nam się stary wynik z poprzedniego folderu.
