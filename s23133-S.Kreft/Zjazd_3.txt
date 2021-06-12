@@ -1,0 +1,137 @@
+Zjazd 3 2021.04.11
+
+Cwiczenie 1.
+	----------------------------------------------------------
+	skrypt1:
+	
+	#!/bin/bash
+	
+	if [ $# -gt 1 ]; then
+		echo $1;
+	else
+		echo "Nie podano parametru";
+	fi
+	
+	-------------------------------------------------------------
+	skrypt2:
+	
+	$!/bin/bash
+	
+	if [ -e config.cfg ]; then
+		./config.cfg
+	elif [ $# -gt 0 ]; then
+		./$1
+	else
+		echo "Błąd"
+	fi
+	
+	--------------------------------------------------------------
+	skrypt3:
+	
+	#!/bin/bash
+	
+	FILENAME=$(basename $0)
+	NAME="${FILENAME%.*}"
+	EXT="${FILENAME##*.}"
+	echo "$FILENAME $EXT $NAME
+	
+	if [[ ${EXT} != "sh" ]]; then
+		mv ${0} ${0}.sh
+	fi
+	
+	-------------------------------------------------------------------
+	skrypt4:
+	
+	#!/bin/bash
+	
+	if [ $(ls -l | grep -e "^-" | wc-l ) -gt 5 ]; then
+		echo "Jest więcej niż 5 plików w katalogu"
+	fi
+	
+Cwiczenie 2.
+
+	skrypt1:
+	
+	#!/bin/bash
+	
+	for ((i = 10; i >= 1; i = i-2)); do echo $1; done		#skrypt dekrementuje wartosc $1 od 10 do 1 co 2
+	
+	-----------------------------------------------------------------------
+	skrypt2:
+	
+	#!/bin/bash
+	
+	for i in $@; do		#skrypt wypisuje kolejne argumenty skryptu w cudzyslowach
+		echo \""$i"\"
+	done
+	
+	----------------------------------------------------------------------------
+	skrypt3:
+	
+	#!/bin/bash
+	
+	ls -1 | while read line; do							#przy kazdym wczytaniu linii przed nazwa zostaje wczytane "Patrzcie Panstwo..."
+		echo "Patrzcie Państwo, oto plik: ${line}"
+	done
+	
+	skrypt4:
+	
+	#!/bin/bash
+	
+	for file in *.c; do
+		NAME=$(echo ${file} | cut -f 1 -d ".")			#zapisanie nazwy pliku bez rozszerzenia do zmiennej NAME
+		cc $file -o $NAME
+	done
+
+	---------------------------------------------------------------------------------
+	skrypt 5:
+	
+	#!/bin/bash
+	
+	TAB=($@)
+	cat ${TAB[@]}
+
+	for (( i=${#TAB[@]}-1; i>=0; i-- ));do
+		cat "${TAB[i]}"
+	done
+
+Cwiczenie 3.
+
+	skrypt1:
+	
+	#!/bin/bash
+		
+	coloring() {
+	echo -e "\e["${2}"m"${1}"\\e[0m"			#jako pierwszy argument podajemy tekst, jako drugi, dwucyfrowy kod koloru
+	}
+	coloring $1 $2
+	
+	--------------------------------------------------------------------------------------
+	
+	skrypt2:
+	
+	#1/bin/bash
+	
+	function fib() {
+	i=$1
+	if (( i<= 2 ))
+	then echo 1
+	else
+	echo $(( $(fib $((i - 1)) ) + $(fib $((i - 2)) ) ))
+	fi
+	}
+	echo $1 wyraz ciągu to $(fib $1)
+	---------------------------------------------------------------------------------------------
+
+
+Praca domowa:
+
+	#!/bin/bash
+	
+	if [[ $1 =~^[0-9][0-9]'-'[0-9][0-9][0-9] ]]; then
+	echo "kod pocztowy"
+	elif [[ $1 =~ ^[A-Z][a-ząćęłńóśźż] ]]; then
+	echo imię
+	elif [[ $1 =~ .*@.* ]]; then
+	echo email
+	fi
