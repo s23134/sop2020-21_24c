@@ -1,0 +1,98 @@
+# Zadanie 1
+# Ilość podanych parametrów
+${#}
+# Nazwa pliku
+${0}
+# Każdy kolejny podany argument
+${n} # gdzie n to numer argumentu, od 1
+
+ # Pętlę if deklaruje się 
+if [ warunek ]; then 
+	# polecenia
+elif [ warunek2 ]; then
+	# kolejne polecenia
+else
+	# reszta
+fi
+
+# można również korzystać z podwójnego nawiasu kwadratowego w celu sprawdzenia warunku
+[[ warunek ]]
+# czyli wyrażenie 
+
+if [[ warunek ]]; then 
+	# polecenia
+fi
+#też jest poprawne
+
+# Plików można szukać poprzez Bash Conditional Expressions, np.
+if [ -e ${0} ]; then 
+	echo "Jestem, więc myślę... (???)"
+fi
+# pozostałe argumenty tu
+# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Bash-Conditional-Expressions
+
+# W konstrukcjach warunkowych takich jak [[  ]] można porównywać ze sobą wzorzec RegEx z łańcuchem przy użyciu =~ 
+# Wówczas łańcuch po prawej stronie jest interpretowany jako RegEx i przyrównywany do łańcucha po lewej stronie. 
+# Jeśli łańcuch pasuje do wzorca to zwracana jest wartość 0.
+if [[ ${0} =~ \.sh$ ]]; then 
+    echo "Skrypt ma właściwe rozszerzenie"
+fi
+
+# Polecenia wywołuje się poprzez 
+$(ls -l)
+# lub 
+`ls -l`
+
+# Ćwiczenia 2
+# Tablicę można zadeklarować na kilka sposobów
+tablica
+# lub
+tablica=(1 2 3)
+# lub 
+declare -a tablica
+# do której to tablicy można przypisać wartości w taki sposób:
+tablica[0]=1
+# Do deklarowania powiązanych tablic można użyć
+declare -A tablica
+# lub
+tablica=(key1=value1 key2=value2)
+
+# Pętlę for można zadeklarować na kilka sposobów
+for d in ${tablica[@]}; do
+	echo $d
+done
+
+#oraz
+
+for (( i=0; i<${#tablica[@]}; i++ )); do
+	echo ${tablica[$i]}
+done
+
+# Ćwiczenia 3
+# Funkcję można zadeklarować na dwa sposoby
+funkcja() {
+	echo "dziala"
+}
+# lub
+function funkcja {
+	echo "dziala"
+}
+
+# Wywołujemy ją przez
+funkcja 
+
+# Można przekazywać do niej parametry w ten sposób
+funkcja parametr1 parametr2
+
+# Odwołujemy się do nich wewnątrz funkcji w ten sposób
+funkcja() {
+	echo "Pierwszy parametr to $1"
+	echo "Drugi parametr to $2"
+}
+
+# Polecenie return służy do zwracania kodu błędu, a nie wartości funkcji. 
+# Jego zakres wynosi jeden bajt [0-255]. Ponadto przerywa działanie funkcji, 
+# dlatego nie nadaje się do stosowania w funkcjach rekursyjnych.
+# Do wartości return można się odwołać zmienną $?
+
+
